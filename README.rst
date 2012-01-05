@@ -20,7 +20,7 @@ Abhängigkeiten
 Installation:
 =============
 
-1. Repo clonen
+#. Repo clonen
 #. Datenbank erstellen mit: ``python manage.py syncdb``
 #. Server starten mit: ``python manage.py runserver`` 
 #. *127.0.0.1:8000* besuchen
