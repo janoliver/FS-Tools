@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>{% block title %}VLUServer{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/screen.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/achtung.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/reset.css" />
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/achtung.js"></script>
+    <script type="text/javascript" src="/static/js/eval.js"></script>
+  </head>
+  <body>
+    <div id="coat">
+      <div id="header">
+        <h1>FS Tools</h1>
+      </div>
+      {% if form.errors %}
+      <ul class="messages">
+        <li>Your username and password didn't match. Please try again.</li>
+      </ul>
+      {% endif %}
+      <div id="content">
+        {% load url from future %}
+
+
+        <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+          {% csrf_token %}
+          <table>
+            <tr>
+              <td>{{ form.username.label_tag }}</td>
+              <td>{{ form.username }}</td>
+            </tr>
+            <tr>
+              <td>{{ form.password.label_tag }}</td>
+              <td>{{ form.password }}</td>
+            </tr>
+          </table>
+
+          <input type="submit" value="login" />
+          <input type="hidden" name="next" value="{{ next }}" />
+        </form>
+
+      </div>
+      <div id="footer">
+        &copy; Fachschaft Physik, Marburg, 2011. Version 1.0. 
+      </div>
+    </div>
+  </body>
+</html>

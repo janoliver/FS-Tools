@@ -1,0 +1,46 @@
+{% extends "base.djhtml" %}
+
+
+{% block rhp %}
+class="aktiv"
+{% endblock rhp %}
+
+
+{% block content %}
+
+<h2>RHP: {{ rhp.name }}, {% if artikel.pk %}Artikel bearbeiten{% else %}Neuer Artikel{% endif %}</h2>
+
+<form class="bogen" method="post" action="/rhp/{{ rhp.id }}/artikel{% if artikel.pk %}/{{ artikel.id }}{% endif %}">
+  {% csrf_token %}
+  <div class="frage">
+    <div class="inner">
+      Titel:
+      <div class="options long">
+        <input type="text" name="titel" value="{{ artikel.titel }}" />
+      </div>
+    </div>
+  </div>
+  
+  <div class="frage">
+    <div class="inner">
+      Autor:
+      <div class="options long">
+        <input type="text" name="autor" value="{{ artikel.autor }}" />
+      </div>
+    </div>
+  </div>
+
+  <div class="frage textfrage">
+    <div class="inner">
+      Text: <br />
+      <textarea name="text" class="long">{{ artikel.text }}</textarea>
+    </div>
+  </div>  
+
+  <input type="submit" class="rightbutton" value="Artikel speichern" />
+  <br class="clear" />
+
+</form>
+
+
+{% endblock content %}

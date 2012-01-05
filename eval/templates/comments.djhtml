@@ -1,0 +1,31 @@
+{% extends "base.djhtml" %}
+
+{% block vlu %}
+class="aktiv"
+{% endblock vlu %}
+
+
+{% block content %}
+
+<h2>VLU: {{ vl.vlu }}, Vorlesung: {{ vl }}, Kommentare bearbeiten</h2>
+
+
+<form class="bogen" method="post" action="/eval/kommentare/{{ vl.id }}">
+  {% csrf_token %}
+
+  {% for a in antworten %}
+  <div class="frage textfrage">
+    <div class="inner">
+      {{ a.frage.text }} <br />
+      <textarea name="antwort{{ a.id }}">{{ a.text }}</textarea>
+    </div>
+  </div>  
+  {% endfor %}
+
+  <input type="submit" class="rightbutton" value="Antwortbogen speichern" />
+  <br class="clear" />
+
+</form>
+
+
+{% endblock content %}

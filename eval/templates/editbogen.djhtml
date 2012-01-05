@@ -1,0 +1,99 @@
+{% extends "base.djhtml" %}
+
+{% block vlu %}
+class="aktiv"
+{% endblock vlu %}
+
+
+{% block content %}
+
+<h2>VLU: {{ vl.vlu }}, Vorlesung: {{ vl }}, {% if ab.pk %}Bogen bearbeiten{% else %}Neuer Bogen{% endif %}</h2>
+
+<form class="bogen" method="post" action="/eval/editbogen/{{ vl.id }}{% if ab.pk %}/{{ ab.id }}{% endif %}">
+  {% csrf_token %}
+  <div class="frage thirds">
+    <div class="inner">
+      Tutor:
+      <div class="options">
+        <select name="tutor">
+          <option></option>
+          {% for t in vl.tutoren.all() %}
+          <option value="{{ t.id }}" {% if ab.pk and ab.tutor.id == t.id %}selected="selected"{% endif %}>
+            {{ t.name }}
+          </option>
+          {% endfor  %}
+        </select>
+      </div>
+    </div>
+  </div>
+  
+  <div class="frage thirds">
+    <div class="inner">
+      Studiengang:
+      <div class="options">
+        <select name="studiengang">
+          <option></option>
+          {% for t in studiengaenge %}
+          <option value="{{ t.id }}" {% if ab.pk and ab.studiengang.id == t.id %}selected="selected"{% endif %}>
+            {{ t.name }}
+          </option>
+          {% endfor  %}
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="frage thirds">
+    <div class="inner">
+      Semester:
+      <div class="options">
+        <select name="semester">
+          <option></option>
+          {% for t in range(1,20) %}
+          <option  {% if ab.pk and ab.semester == t %}selected="selected"{% endif %}>{{ t }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+  </div>
+    
+  {% for fragenset in fragensets %}
+  <h2>{{ fragenset.titel }}</h2>
+  {% for frage in fragenset.fragen.all() %}
+  {% if frage.fragentyp.texttype %}
+
+  <div class="frage textfrage">
+    <div class="inner">
+      {{ frage.text }} <br />
+      <textarea name="frage{{ frage.id }}">{% if ab.pk %}{{ ab.getAntwort(frage) }}{% endif %}</textarea>
+    </div>
+  </div>  
+
+  {% else %}
+  
+  <div class="frage">
+    <div class="inner">
+      <ul class="options">
+        {% for o in frage.fragentyp.optionen.all() %}
+        <li><input type="radio" name="frage{{ frage.id }}" value="{{ o.id }}" 
+                   {% if ab.pk and ab.getAntwort(frage) == o.id %}checked="checked"{% endif %}> 
+          {{ o.text }}
+        </li>
+        {% endfor %}
+      </ul>
+      {{ frage.text }}
+    </div>
+  </div>
+  
+  {% endif %}
+
+  {% endfor %}
+  {% endfor %}
+
+  <input type="submit" class="rightbutton" value="Antwortbogen speichern" />
+  <br class="clear" />
+
+</form>
+
+
+{% endblock content %}

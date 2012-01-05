@@ -1,0 +1,381 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #333;
+}
+
+#coat {
+    max-width:1000px;
+    margin:0 auto;
+}
+
+#header {
+    border-bottom:1px solid #aaa;
+    padding:10px 0 2px 0;
+}
+#header h1 {
+    font-size: 26px;
+    color: #555;
+    font-weight:bold;
+}
+
+#header ul {
+    float:right;
+    margin-top:6px;
+}
+
+#header ul li {
+    float:left;
+    margin-left:5px;
+}
+
+#header ul li a,
+#header ul li a:visited {
+    display:block;
+    text-decoration: none;
+    padding:6px 10px;
+    background: #eee;
+    color:#333;
+    font-family:verdana;
+    font-size:10px;
+}
+
+#header ul li a.aktiv,
+#header ul li a.aktiv:visited {
+    background-color:#ccc;
+}
+
+
+#header ul li a:hover, 
+#header ul li a.active,
+#header ul li a:active {
+    background: #bbb;
+}
+
+#footer {
+    border-top:1px solid #aaa;
+    font-size: 10px;
+    color: #666;
+    text-align:right;
+    margin-bottom:100px;
+}
+
+#content {
+    padding:10px 5px;
+}
+
+#content iframe {
+    width:100%;
+    height:600px;
+    margin: 0 auto;
+}
+
+
+.message {
+    border:1px solid;
+    padding:5px;
+    margin-bottom:5px;
+}
+
+.message h1 {
+    font-size:12px;
+    font-weight:bold;
+}
+
+.message.error {
+    border-color:#FF0000;
+    background-color:#FFCCCC;
+    color: #660000;
+}
+
+.message.warning {
+    border-color:#FF6600;
+    background-color:#FFCC99;
+    color: #993300;
+}
+
+.message.info {
+    border-color:#0000FF;
+    background-color:#CCCCFF;
+    color: #000066;
+}
+
+.message.success {
+    border-color:#00FF00;
+    background-color:#CCFFCC;
+    color: #006600;
+}
+
+.half, .thirds {
+    margin-bottom:20px;
+}
+
+.half .left {
+    width:49%;
+    float:left;
+}
+
+.half .right {
+    width:49%;
+    float:right;
+}
+
+.thirds .left {
+    width:32%;
+    float:left;
+}
+
+.thirds .right {
+    width:32%;
+    float:right;
+}
+
+.thirds .middle {
+    width:32%;
+    margin:0 auto;
+}
+
+/* the table style */
+#content h2 {
+    color:#333;
+    font-weight:bold;
+    font-size:17px;
+    margin-bottom:3px;
+}
+
+table.t {
+    width:100%;
+    border:1px solid #666;
+    padding:3px; 
+    margin-bottom:20px;   
+}
+
+.t thead tr th {
+    text-align:left;
+    font-weight:bold;
+    background:#eee;
+}
+
+.t thead tr th.buttons,
+.t tbody tr td.buttons {
+    text-align:right;
+}
+
+.t tbody tr td.order a {
+    text-decoration:none;
+}
+
+.t tbody tr td {
+    color:#646464;
+    border-top:1px solid #eee;
+}
+
+.t tbody tr td.inner {
+    padding:5px 50px;
+}
+
+.t tbody tr.even td {
+    background: #f7f7f7;
+}
+
+.t tbody tr.odd td {
+    background: #efefef;
+}
+
+.t thead tr th,
+.t tbody tr td {
+    padding:7px 3px;
+    font-size:12px;
+    font-family:Arial;
+}
+
+.t tbody tr:hover td {
+    background:#ffffcc;
+}
+
+table.ti {
+    width:100%;
+}
+
+table.ti thead tr th {
+    background:transparent;
+    border-bottom:2px solid #000;
+}
+
+/*  ---- eintippen --- */
+
+.bogen {
+    background:#eee;
+    border:1px solid #888;
+    border-left:1px solid #ccc;
+    border-top:1px solid #ccc;
+    padding:10px;
+
+    font-size:12px;
+    font-family:verdana;
+}
+
+#content .bogen h2 {
+    clear:both;
+    text-align:center;
+    font-size:14px;
+    font-weight:bold;
+    color:#333;
+    margin:10px 0 5px 0;
+}
+
+.frage {
+    width:50%;
+    float:left;
+}
+
+.frage.thirds {
+    width:33.3%;
+}
+
+.frage .inner {
+    margin:5px;
+    background:#fff;
+    padding:3px;
+    border-bottom:1px solid #ccc;
+    border-right:1px solid #ccc;
+    overflow:hidden;
+}
+
+.frage.active .inner {
+    background:#FFE9E8;
+}
+
+.frage .inner .options {
+    float:right;
+    border-left:1px solid #ccc;
+}
+
+.frage .inner .options.long {
+    float:right;
+    width:80%;
+    border-left:1px solid #ccc;
+}
+
+.frage .inner .options.long input {
+    width:90%;
+}
+
+.textfrage {
+    width:100%;
+}
+
+.textfrage textarea {
+    width:99%;
+    border:1px solid #ccc;
+    height:68px;
+    line-height:18px;
+    background:url(/static/images/inputbg.png) top left #fff;
+    font-family: Verdana;
+}
+
+.textfrage textarea.long {
+    height:500px;
+}
+
+.rightbutton {
+    float:right;
+    border:1px solid #333;
+    border-radius:5px;
+    
+    background: -moz-linear-gradient(19% 75% 90deg, #E0E0E0, #FAFAFA);
+    background: -webkit-gradient(linear, left top, left bottom, from(#FAFAFA), to(#E0E0E0));
+    
+    font-family:arial,helvetica,sans-serif;
+    font-size:12px;
+    font-weight:bold;
+    padding:5px 8px;
+
+    cursor:pointer;
+}
+
+.rightbutton:hover{
+    background: -moz-linear-gradient(19% 75% 90deg,#D6D6D6, #FAFAFA);
+    background: -webkit-gradient(linear, left top, left bottom, from(#FAFAFA), to(#D6D6D6));
+}
+
+/* ---- random styles */
+
+.center {
+    text-align:center;
+}
+
+.tpl {
+    display:none
+}
+
+.clear {
+    clear:both;
+}
+
+/* --- the fancy buttons -- */
+a.button {
+    text-decoration:none;
+    color:#fff;
+    background:#cbcbcb;
+    font-family:Arial;
+    font-size:11px;
+    padding:2px 3px;
+
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+}
+
+a.button.active {
+    background:#0099ff;
+}
+
+
+a.button.green:hover {
+    background:#33cc33;
+}
+
+a.button.red:hover  {
+    background:#cc3333;
+}
+
+a.button.yellow:hover  {
+    background:#ffcc33;
+}
+
+a.button.blue:hover {
+    background:#0099ff;
+}
+
+/* ******* Messages ************ */
+.messages {
+    margin:10px;
+}
+
+.messages li {
+    border:1px solid #aaa;
+    background: #eee;
+    padding:2px;
+    font-size:11px;
+    font-family:verdana;
+}
+
+.messages li.success {
+    background:#D9FAD7;
+    border-color:#64FA5C;
+}
+
+.messages li.warning {
+    background:#D9FAD7;
+    border-color:#64FA5C;
+}
+
+.messages li.error {
+    background:#D9FAD7;
+    border-color:#64FA5C;
+}
+
+.messages li.info {
+    background:#D9FAD7;
+    border-color:#64FA5C;
+}

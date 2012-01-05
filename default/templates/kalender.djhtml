@@ -1,0 +1,14 @@
+{% extends "base.djhtml" %}
+
+{% block kal %}
+class="aktiv"
+{% endblock kal %}
+
+
+{% block content %}
+
+
+<iframe class="kal" src="https://www.google.com/calendar/embed?height=600&wkst=1&bgcolor=%23FFFFFF&src=fachschaft%40physik.uni-marburg.de&color=%232952A3&ctz=Europe%2FBerlin"></iframe>
+
+
+{% endblock content %}

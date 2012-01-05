@@ -1,0 +1,64 @@
+{% extends "base.djhtml" %}
+
+
+{% block rhp %}
+class="aktiv"
+{% endblock rhp %}
+
+
+{% block content %}
+
+<div>
+  <h2>RHPs</h2>
+  <table class="t">
+    <thead>
+      <tr>
+        <th colspan="2">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for rhp in rhps %}
+      <tr>
+        <td>{{ rhp.name }}</td>
+        <td class="buttons">
+          <a href="/rhp/export/{{ rhp.id }}" class="button green">LaTeX exportieren</a>
+          <a href="rhp{{ rhp.id }}" class="button green add vlu">Artikel anzeigen</a>
+        </td>
+      </tr>
+      <tr  class="tpl rhp{{ rhp.id }}">
+        <td class="inner" colspan="2">
+          <table class="ti">
+            <thead>
+              <tr>
+                <th>Titel</th>
+                <th>Autor</th>
+                <th>Reihenfolge</th>
+                <th class="buttons"><a href="/rhp/{{ rhp.id }}/artikel/" class="button green add">Artikel hinzufügen</a></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for artikel in rhp.artikel.all() %}
+              
+              <tr>
+                <td>{{ artikel.titel }}</td>
+                <td>{{ artikel.autor }}</td>
+                <td class="order">
+                  {% if loop.index > 1 %}<a href="/rhp/move/{{ artikel.id }}/up">&uarr;</a>{% else %}&nbsp;&nbsp;{% endif %}
+                  {% if loop.index < rhp.artikel.all()|count %}<a href="/rhp/move/{{ artikel.id }}/down">&darr;</a>{% endif %}
+                </td>
+                <td class="buttons">
+                  <a href="/rhp/{{ rhp.id }}/artikel/{{ artikel.id }}/" class="button green add">Artikel bearbeiten</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br style="clear:both"/>
+</div>
+
+{% endblock content %}

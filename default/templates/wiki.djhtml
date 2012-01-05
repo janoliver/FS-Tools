@@ -1,0 +1,14 @@
+{% extends "base.djhtml" %}
+
+{% block wiki %}
+class="aktiv"
+{% endblock wiki %}
+
+
+{% block content %}
+
+
+<iframe src="https://trillian.physik.uni-marburg.de/wiki/doku.php"></iframe>
+
+
+{% endblock content %}

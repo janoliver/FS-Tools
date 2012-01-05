@@ -1,0 +1,232 @@
+%  Liste der Dateien:
+%  
+%  # rhp.sty: Stile, befehle, eingebundene Pakete usw. der RHP. Sozusagen die gesamte Präambel
+%  # vorwort.eps: Das Bildchen, was diese Statistikkästen erläutert.
+%  # titel.tex: Titelseite
+%  
+%  TODOs:
+%  
+%  # rhp.tex sollte so einfach wie möglich gehalten werden. Daher: möglichst viele Makros
+%    schreiben, um die Struktur der RHP zu vereinfachen. Bsp: DIe ganzen newpages usw. 
+%  # vorwort.eps sollte eine tikz oder pstricks grafik werden. 
+%  # ALLES UTF-8 bitte!
+%  # \Stats überarbeiten vielleicht...
+
+
+
+\documentclass[twoside,12pt, headinclude=true, footinclude=false]{scrreprt}
+
+% Alle Stildefinitionen, Pakete und Befehle werden in rhp.sty definiert.
+\usepackage{rhp}
+
+
+
+\begin{document}
+
+%%%%% TITEL
+\input{titel}
+
+%%%%% INHALTSVERZEICHNIS
+\markboth{Renthofpostille}{Renthofpostille}
+\clearpage
+\tableofcontents
+\clearpage
+
+%%%%% Vorwort
+\artikel{Vorwort}
+
+Hallo liebe Leserin,
+
+\autor{Deine Fachschaft}
+\newpage
+
+%%%%% ARTIKEL
+\BLOCK{for a in artikel}
+  \artikel{\VAR{a.titel}}
+  \VAR{a.text}
+  \autor{\VAR{a.autor}}
+\BLOCK{endfor}
+
+
+%%%%% VLU
+\zuminhalt{Vorlesungsevaluation}
+
+\markboth{Vorlesungsevaluation \VAR{vlu.name}}{Vorwort}
+\centerline{\bf \huge Vorwort zur Vorlesungsumfrage}
+
+\vspace{5mm}
+
+%@TODO
+Im Zeitraum \VAR{vlu.vlu_start|date} bis \VAR{vlu.vlu_end|date} wurde im Fachbereich  Physik  wieder eine
+Vorlesungsumfrage durchgeführt. Befragt wurden Studierende aus allen
+größeren Vorlesungen sowie einigen Spezialvorlesungen.
+
+\vspace{5mm}
+
+Die evaluierten Veranstaltungen und die Anzahl der abgegebenen Fragebögen:
+
+% TODO: maschinell generieren
+\begin{tabular}{ll@{ : }l}
+  \BLOCK{for vl in vorlesungen}                              % loop über vorlesungen der VLU
+  \VAR{vl.name} & \VAR{ vl.dozenten.all()|concat} & \VAR{ vl.antwortboegen.all()|count } \\
+  \BLOCK{endfor}
+\end{tabular}
+
+\vspace{5mm}
+\textbf{\large Zur Vorgehensweise bei der Umfrage:}
+\vspace{0.05cm}
+
+Die Fragebögen wurden in den Vorlesungen ausgeteilt, ausgefüllt und  direkt im Anschluss daran wieder eingesammelt.
+Dadurch konnte eine Rücklaufquote von nahezu 100 Prozent erzielt werden. Für das Austeilen und Einsammeln, sowie
+das Auswerten der Bögen sei an dieser Stelle noch einmal allen Beteiligten gedankt!
+
+\vspace{5mm}
+\textbf{\large Zu den Diagrammen:}
+\vspace{0.05cm}
+
+Die Kästchen hinter den Fragen entsprechen den Feldern auf den Fragebögen. Die Balkendiagramme geben die Häufigkeit
+wieder, mit der das entsprechende Feld angekreuzt wurde. Die Höhe der Balken ist dabei auf die Gesamtzahl von gültigen
+Stimmen normiert. Hinter dem Fragetext ist zusätzlich jeweils die Anzahl der bei dieser Fage gültigen Bögen vermerkt.
+
+Die Mittelwertberechnung zu jeder Frage und Vorlesung ergibt sich aus den jeweils gültigen Stimmen und ist als schwarzer
+senkrechter Strich in den Balkendiagrammen zu finden. Die gestrichelten Linien stellen das Mittel über die Mittelwerte
+aller  evaluierten Vorlesungen bei der jeweiligen Frage dar (s. Beispiel). Dabei wurden alle Vorlesungen gleich gewichtet,
+unabhängig von der Teilnehmerzahl. Der Vergleich zwischen dem Mittelwert einer Vorlesung und dem Gesamtmittel ist in vielen
+Fällen aussagekräftiger als der Absolutwert des Mittelwertes. Es sollte aber beachtet werden, daß sich manche Vorlesungen
+aufgrund völlig unterschiedlicher Situationen nicht vergleichen lassen. (Z.B. geben die Versuche in Physik I der Vorlesung
+unabhängig vom Vortragsstil einen Bonus.)
+
+\vspace{3mm}
+\textbf{Beispiel:}
+\vskip8mm\centerline{\parbox{80mm}{\epsfxsize=80mm\epsffile{vorwort.eps}}}\vskip6mm
+\vspace{5mm}
+
+\textbf{\large Zu den Kommentaren:}
+\vspace{0.05cm}
+
+Die Kommentare der Studierenden sind im Anschluß an die Fragen aufgeführt. Persönlich beleidigende Anmerkungen und Äußerungen, die
+nichts mit der Vorlesung zu tun haben, wurden weggelassen. In einigen Fällen haben wir Kommentare nur zusammengefasst und in Form einer
+\emph{Anm. d. Fachschaft} wiedergegeben. Teilweise wurden zur besseren Lesbarkeit grammatikalische und orthographische Dienste
+geleistet. In ihrer Bedeutung gleiche Bemerkungen wurden zusammengefaßt und  die Häufigkeit ihrer Nennung in Klammern dahintergesetzt.
+
+\vspace{5mm}
+\textbf{\large Allgemeine Bemerkungen zur Berurteilung der Lehrveranstaltungen:}
+\vspace{0,05cm}
+
+Wie man sieht, liegen die Mittelwerte über alle Vorlesungen meist höher als die neutralen Werte. Die Veranstaltungen scheinen von den
+Studierenden geringfügig besser als eine durchschnittliche Vorlesung empfunden zu werden. Wie vorhin schon erwähnt muß noch der Anteil
+der Studierenden, die den Besuch der Veranstaltungen im Laufe dieses Semesters aufgegeben haben und deshalb nicht von der Umfrage erfaßt
+worden sind, beachtet werden.
+
+\vspace{5mm}
+
+\textbf{\large Und was passiert jetzt damit?}
+\vspace{0.05cm}
+
+Die Ergebnisse der Umfrage wurden (wie Ihr seht) veröffentlicht. Außerdem bekommt jeder Professor eine Auswertung von uns persönlich
+überreicht, mit der Bitte, sie in der Vorlesung zu besprechen --- daran solltet Ihr ihn gelegentlich erinnern. Die Erfahrung zeigt,
+dass konstruktive Kritik (wie sie ja auch vielfach in den Kommentaren geübt wurde)
+eigentlich immer gut ankommt. Sollten sich trotzdem irgendwelche Probleme ergeben, könnt ihr Euch natürlich auch an die Fachschaft wenden.
+
+\vspace{10mm}
+
+{\sl Marburg am \today
+  \\
+  Die Fachschaft Physik der Philipps-Universität Marburg}
+
+\newpage
+
+% TODO: maschinell generieren
+\BLOCK{for vl in vorlesungen}
+
+\Kopfgross{\VAR{vl.name}}{\VAR{ vl.dozenten.all()|concat}}{\VAR{vl.antwortboegen.all()|count}}
+\BLOCK{if vl.antwortboegen.all()|count > 0}
+
+\begin{center}
+  \begin{tabular}{p{3cm}p{3cm}p{5cm}l}
+    {\bf Semesterverteilung:}&&{\bf Studiengänge:}& \\
+    \BLOCK{for index in range(vl.studiengang_dist()|max(vl.semester_dist()))}
+    \BLOCK{if vl.semester_dist()|count > index -}
+      Semester \VAR{vl.semester_dist()[index]['key']}: & \VAR{vl.semester_dist()[index]['val']} 
+    \BLOCK{- else} & \BLOCK{endif -}
+    &
+    \BLOCK{- if vl.studiengang_dist()|count > index -}
+      \VAR{vl.studiengang_dist()[index]['key']}: & \VAR{vl.studiengang_dist()[index]['val']} 
+    \BLOCK{- else} & \BLOCK{endif} \\
+    \BLOCK{endfor}
+  \end{tabular}
+\end{center}
+\Strich
+
+% auswertung
+\BLOCK{for fragenset in vl.fragebogen.fragensets.all()}
+  \BLOCK{for frage in fragenset.fragen(fragen)} 
+    \BLOCK{if not frage.fragentyp.texttype and frage.total(vl) > 0}
+      \Frage{\VAR{frage.text}}{\VAR{frage.total(vl)}}
+      \BLOCK{- for option in frage.fragentyp.fast_optionen(optionen) -}
+        \BLOCK{- if loop.first -}
+          {\VAR{option.text|latexify}}{\Stats 
+        \BLOCK{- endif -}
+        {\VAR{(option.value(vl, frage) * 100)|int}}
+        \BLOCK{- if loop.last -}
+          {\VAR{((frage.mean(vlu)-1) * 100)|int}}
+          {\VAR{((frage.mean(vl)-1) * 100)|int}}}
+          {\VAR{option.text|latexify}}
+        \BLOCK{- endif -}
+      \BLOCK{- endfor} \\
+    \BLOCK{- endif}
+  \BLOCK{endfor}
+\BLOCK{endfor}
+
+\Strich
+\centerline{\large Liste aller Kommentare:}
+
+\BLOCK{for fragenset in vl.fragebogen.fragensets.all() -}
+  \BLOCK{- for frage in fragenset.fragen(fragen) -}
+    \BLOCK{- if frage.fragentyp.texttype and frage.id != 34}
+      {\bf \VAR{frage.text}}
+      \BLOCK{if frage.antworten(vl)|count > 0 -}
+        \begin{itemize}
+          \setlength{\itemsep}{0cm} \setlength{\parsep}{0cm}
+        \BLOCK{for k in frage.antworten(vl)}
+          \item \VAR{k.text|latexify}
+        \BLOCK{endfor}
+        \end{itemize}
+      \BLOCK{else}
+        \begin{itemize}\item Keine Kommentare\end{itemize}
+      \BLOCK{endif -}
+    \BLOCK{- endif -}
+
+    \BLOCK{- if frage.fragentyp.texttype and frage.id == 34}
+      {\bf \VAR{frage.text}}
+      \BLOCK{if vl.tutoren.all()|count > 0}
+        \begin{itemize}
+        \BLOCK{for tutor in vl.tutoren.all()}
+          \item Gruppe von \VAR{tutor.name}
+          \BLOCK{if frage.antworten(vl, tutor)|count > 0 -}
+            \begin{itemize}
+              \setlength{\itemsep}{0cm} \setlength{\parsep}{0cm}
+            \BLOCK{for k in frage.antworten(vl, tutor)}
+              \item \VAR{k.text|latexify}
+            \BLOCK{endfor}
+            \end{itemize}
+          \BLOCK{- else -}
+            \begin{itemize}\item Keine Kommentare\end{itemize}
+          \BLOCK{endif -}
+        \BLOCK{- endfor -}
+        \end{itemize}
+      \BLOCK{else}
+        \begin{itemize}\item Keine Kommentare\end{itemize}
+      \BLOCK{- endif}
+    \BLOCK{endif}
+  \BLOCK{- endfor -}
+\BLOCK{- endfor}
+
+\BLOCK{endif}
+
+\newpage
+
+\BLOCK{endfor}
+
+\end{document}
+

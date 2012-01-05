@@ -1,0 +1,44 @@
+{% extends "base.djhtml" %}
+
+
+{% block vlu %}
+class="aktiv"
+{% endblock vlu %}
+
+
+{% block content %}
+
+<div>
+  <h2>Antwortbögen</h2>
+  <table class="t">
+    <thead>
+      <tr>
+        <th>Studiengang</th>
+        <th>Tutor</th>
+        <th>Semester</th>
+        <th>Eingetippt</th>
+        <th>Bearbeitet</th>
+        <th class="buttons">
+          <a href="/eval/editbogen/{{ vl.id  }}" class="button green add">Neuen Bogen eintippen</a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for b in vl.antwortboegen.all() %}
+      <tr>
+        <td>{{ b.studiengang }}</td>
+        <td>{{ b.tutor }}</td>
+        <td>{{ b.semester }}</td>
+        <td>{{ b.date_created }}</td>
+        <td>{{ b.date_modified }}</td>
+        <td class="buttons">
+          <a href="/eval/editbogen/{{ vl.id  }}/{{ b.id }}" class="button yellow add">Bogen Bearbeiten</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br style="clear:both"/>
+</div>
+
+{% endblock content %}

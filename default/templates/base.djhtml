@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>{% block title %}VLUServer{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="/static/css/screen.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="/static/css/achtung.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="/static/css/reset.css" />
+  <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+  <script type="text/javascript" src="/static/js/achtung.js"></script>
+  <script type="text/javascript" src="/static/js/eval.js"></script>
+</head>
+<body>
+  <div id="coat">
+    <div id="header">
+      <ul>
+        <li><a href="/" {% block start %}{% endblock %}>Start</a></li>
+        <li><a href="/rhp" {% block rhp %}{% endblock %}>Renthofpostille</a></li>
+        <li><a href="/eval" {% block vlu %}{% endblock %}>Vorlesungsumfrage</a></li>
+        <li><a href="/wik" {% block wiki %}{% endblock %}>Wiki</a></li>
+        <li><a href="/kalender" {% block kal %}{% endblock %}>Kalender</a></li>
+        <li><a href="/admin">Administration</a></li>
+        <li><a href="/accounts/logout">Logout</a></li>
+      </ul>
+      <h1>FS Tools</h1>
+    </div>
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <div id="content">
+      {% block content %}{% endblock %}
+    </div>
+    <div id="footer">
+      &copy; Fachschaft Physik, Marburg, 2011. Version 1.0. 
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{% extends "base.djhtml" %}
+
+{% block start %}
+class="aktiv"
+{% endblock start %}
+
+{% block content %}
+Willkommen zu den FS Tools!
+{% endblock content %}

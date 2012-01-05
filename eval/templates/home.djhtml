@@ -1,0 +1,63 @@
+{% extends "base.djhtml" %}
+
+
+{% block vlu %}
+class="aktiv"
+{% endblock vlu %}
+
+
+{% block content %}
+
+<div>
+  <h2>Vorlesungsumfragen</h2>
+  <table class="t" id="admin-personaltyp">
+    <thead>
+      <tr>
+        <th colspan="2">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for vlu in vlus %}
+      <tr>
+        <td>{{ vlu.name }}</td>
+        <td class="buttons">
+          <a href="vlu{{ vlu.id }}" class="button green add vlu">Vorlesungen anzeigen</a>
+        </td>
+      </tr>
+      <tr  class="tpl vlu{{ vlu.id }}">
+        <td class="inner" colspan="2">
+          <table class="ti">
+            <thead>
+              <tr>
+                <th>Vorlesung</th>
+                <th>Dozent</th>
+                <th>Fragenset</th>
+                <th>Boegen eingetippt</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for vl in vlu.vorlesungen.all() %}
+              
+              <tr>
+                <td>{{ vl.name }}</td>
+                <td>{{ vl.dozenten.all()|join(", ") }}</td>
+                <td>{{ vl.fragenset }}</td>
+                <td>{{ vl.antwortboegen.all()|length }}</td>
+                <td class="buttons">
+                  <a href="/eval/kommentare/{{ vl.id }}/" class="button green add">Kommentare</a>
+                  <a href="/eval/vorlesung/{{ vl.id }}/" class="button green add">Antworten</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br style="clear:both"/>
+</div>
+
+{% endblock content %}

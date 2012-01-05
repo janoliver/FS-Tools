@@ -1,0 +1,191 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                                                            %
+% Stildefinition für Umfrageauswertung                                                                       %
+%                                                                                                            %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage[DIV16,BCOR3mm,headinclude,footexclude]{typearea}
+\usepackage{graphicx}
+\usepackage{units}
+\usepackage{eurosym}
+\usepackage{url}
+\usepackage{charter}  % Schriftart Charter wählen
+\usepackage{tocloft}  % Zum einfach Formatieren des Inhaltsverzeichnisses
+\usepackage{enumitem}  % Zum einfachen Einstellen von Aufz"ahlungen
+\usepackage{eso-pic}  % Zum Einbinden von Hintergrundbildern
+
+\usepackage[german]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{epsf}
+
+%%% Laengen setzen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1ex plus0.5ex minus0.5ex}
+\setcounter{tocdepth}{2}
+\pagestyle{myheadings}
+
+% Abstände bei Aufzählungen
+\setlist{topsep=0cm,itemsep=0cm,parsep=0cm,partopsep=0cm}
+
+% Satzspiegel mit gew"ahlten Schriften neu berechnen
+\typearea[3mm]{16}
+
+% "Uberschriften wir in Standard-Klasse formatieren
+\setkomafont{section}{\normalfont\Large\bfseries}
+\setkomafont{subsection}{\normalfont\large\bfseries}
+
+% Fu"snotenformatierung
+\deffootnote{1.5em}{1em}{\makebox[1.5em][l]{\thefootnotemark}}
+
+% Inhaltsverzeichnis
+\tocloftpagestyle{empty}
+\setlength{\cftbeforetoctitleskip}{0ex}
+\setlength{\cftaftertoctitleskip}{\bigskipamount}
+\renewcommand{\cfttoctitlefont}{\LARGE\bf}
+\setlength{\cftbeforesecskip}{0.5ex}
+\setlength{\cftsecindent}{0em}
+\setlength{\cftsubsecindent}{2em}
+\cftsetpnumwidth{0em}
+\renewcommand{\cftsecleader}{\hspace{0.4em}--\hspace{0.4em}}
+\renewcommand{\cftsecafterpnum}{\cftparfillskip}
+\renewcommand{\cftsubsecleader}{\hspace{0.4em}--\hspace{0.4em}}
+\renewcommand{\cftsubsecafterpnum}{\cftparfillskip}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Zeichnung der Kästen %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+% syntax \Standardkasten2{prozent 1}{..}{..}{..}{prozent 5}{mittelwert alle Vorlesungen}{mittel wert}
+% Die Mittelwerte sind im Intervall [0,400] anzugeben.
+\newcommand{\Stats}[7]
+{ 
+\setlength{\unitlength}{0.08mm}%                                      % Ab hier werden nur noch die Kästchen
+\begin{picture}(500,100)(-50,40)%                                     % und die Linien gemalt.
+\put(-50,0){\line(1,0){500}}%                                         %
+\put(-50,100){\line(1,0){500}}%                                       %
+\multiput(-50,0)(100,0){6}{\line(0,1){100}}%                          %
+\thicklines%                                                          %
+\multiput(#7,-20)(1,0){3}{\line(0,1){140}}%Absolutwert           %
+\multiput(#7,-20)(-1,0){3}{\line(0,1){140}}%                     %
+\multiput(#6,-20)(0,10){15}{\line(1,0){6}}% Relativwert               %
+\multiput(#6,-20)(0,10){15}{\line(-1,0){6}}%                          %
+\multiput(-50,0)(0,1){#1}{\line(1,0){100}}%                           %
+\multiput(50,0)(0,1){#2}{\line(1,0){100}}%                            %
+\multiput(150,0)(0,1){#3}{\line(1,0){100}}%                           %
+\multiput(250,0)(0,1){#4}{\line(1,0){100}}%                           %
+\multiput(350,0)(0,1){#5}{\line(1,0){100}}%                           %
+\end{picture}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Befehl für Frage %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Frage}[5]%
+{% 
+\makebox[16,5cm]{%
+\makebox[7,5cm]{\parbox{7,5cm}{#1 (#2)}}%
+\hspace{0,5cm}%
+\makebox[2cm]{#3}%
+\makebox[4,5cm]{#4}%
+\makebox[2cm]{#5}}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Befehl für Überschrift %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Kopfgross}[3]%
+{
+ \markboth{Vorlesungsevaluation \VAR{vlu.name}}{#1, #2}
+\centerline{\Large {\bf #1}\quad bei\quad {\bf #2}} 
+\vspace{0,3cm}
+\centerline{\bf Abgegebene Fragebögen: #3}
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Befehl zum Kommentar %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Kommentar}[2]%
+{
+{\bf \FrageText{#1}}
+\begin{itemize}
+#2
+\end{itemize}
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Strich %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\Strich}
+{
+
+\hrulefill
+
+\vspace{0,3cm}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% sonstiger Kleinkram      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\VL}{Vorlesung}
+
+
+
+% längen setzen
+\textheight=23cm
+\textwidth=16,5cm
+\topmargin=-1cm
+\oddsidemargin=0cm
+
+
+
+
+%% Neue Befehle %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\zuminhalt}[1]{\addcontentsline{toc}{section}{#1}}
+\newcommand{\artikel}[1]{
+ \section*{#1}
+ \markboth{Renthofpostille}{#1}
+ \zuminhalt{#1}
+}
+
+% Inhaltsverzeichnis
+\makeatletter
+\renewcommand{\tableofcontents}{%
+  \begin{flushleft}
+     \section*{\contentsname
+        \@mkboth{%
+           \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
+  \end{flushleft}
+    \@starttoc{toc}%
+}
+\makeatother
+
+% Listen
+\newcommand{\entrylabel}[1]{#1\hfil}
+\newenvironment{zitatliste}%
+{%
+  \begin{list}{}{%
+   \renewcommand{\makelabel}{\entrylabel}
+   \setlength{\topsep}{0cm}\setlength{\itemsep}{0cm}\setlength{\parsep}{0cm}
+  }
+}{%
+  \end{list}
+}
+\newenvironment{numerierung}%
+{%
+  \setcounter{enumi}{0}
+  \begin{list}{\stepcounter{enumi}\theenumi.}{%
+   \setlength{\topsep}{0cm}\setlength{\itemsep}{0cm}\setlength{\parsep}{0cm}
+  }
+}{%
+  \end{list}
+}
+
+\newcommand{\autor}[1]{\hfill\textit{#1}}
