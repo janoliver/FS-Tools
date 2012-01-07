@@ -92,7 +92,7 @@ def export(request, rhp_id):
             template = latex_helper.env.get_template(tpl)
             f = tempfile.NamedTemporaryFile()
             f.write(template.render(context).encode("utf8"))
-            #f.close()
+            f.flush()
             tmpfiles.append((tpl, f))
         else:
             files.append((tpl, loader.get_source(latex_helper.env, tpl)[1]))
@@ -103,6 +103,7 @@ def export(request, rhp_id):
     
     buffer = StringIO()
     zip    = zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED)
+    
     for name, f in tmpfiles:
         zip.write(f.name, rhp.name+'/'+name)
         f.close()

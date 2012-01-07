@@ -143,26 +143,23 @@ def export_einverst(request, vlu_id):
         'optionen': Option.objects.select_related(),
         'vorlesungen': vlu.vorlesungen.select_related()
         }
-
-    tmpfiles = []
-    for tpl in latex_helper.env.list_templates():
-        if tpl and (tpl.find('.tex') > 0 or tpl.find('.sty') > 0):
-            template = latex_helper.env.get_template(tpl)
-            f = tempfile.NamedTemporaryFile()
-            f.write(template.render(context).encode("utf8"))
-            tmpfiles.append((tpl, f))
-            
+   
     # return as a zip file. from here: https://code.djangoproject.com/wiki/CookBookDynamicZip
     response = HttpResponse(mimetype='application/zip')
     response['Content-Disposition'] = 'filename='+ vlu.name +'.zip'
     
     buffer = StringIO()
     zip    = zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED)
-
-    for name, f in tmpfiles:
-        zip.write(f.name, vlu.name+'/'+name)
-        f.close()
-
+    
+    for tpl in latex_helper.env.list_templates():
+        if tpl and (tpl.find('.tex') > 0 or tpl.find('.sty') > 0):
+            template = latex_helper.env.get_template(tpl)
+            f = tempfile.NamedTemporaryFile()
+            f.write( template.render(context).encode("utf8"))
+            f.flush()
+            zip.write(f.name, vlu.name+'/'+tpl)
+            f.close()
+            
     zip.close()
     buffer.flush()
 
