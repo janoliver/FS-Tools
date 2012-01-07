@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     url(r'^eval/kommentare/(?P<vl_id>\d+)', 'eval.views.comments'),
     url(r'^eval/editbogen/(?P<vl_id>\d+)/(?P<bogen_id>\d+)', 'eval.views.editbogen'),
     url(r'^eval/editbogen/(?P<vl_id>\d+)', 'eval.views.editbogen'),
+    url(r'^eval/export/(?P<vlu_id>\d+)', 'eval.views.export_einverst'),
 
     url(r'^rhp$', 'rhp.views.list'),
     url(r'^rhp/(?P<rhp_id>\d+)/artikel/(?P<artikel_id>\d+)', 'rhp.views.artikel'),
@@ -22,6 +23,9 @@ urlpatterns = patterns('',
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'login.djhtml'}),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login'),
 
+    url(r'^umfrage$', 'umfrage.views.list'),
+    url(r'^umfrage/(?P<umfrage_id>\d+)', 'umfrage.views.umfrage'),
+                       
     url(r'^admin/', include(admin.site.urls)),
     #url(r'^import/$', 'eval.views.imports'),
                        

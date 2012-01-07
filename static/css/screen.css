@@ -3,6 +3,13 @@ body {
     color: #333;
 }
 
+#loading { 
+    padding-right:45px;
+    background-image:url("/static/images/loader.gif");
+    background-position: right;
+    background-repeat: no-repeat;
+}
+
 #coat {
     max-width:1000px;
     margin:0 auto;
@@ -155,6 +162,15 @@ table.t {
     background:#eee;
 }
 
+.t thead tr th small {
+    font-weight:normal;
+    font-size:0.8em;
+}
+
+.t thead tr th.dyn {
+    background:#ccc;
+}
+
 .t thead tr th.buttons,
 .t tbody tr td.buttons {
     text-align:right;
@@ -199,6 +215,26 @@ table.ti {
 table.ti thead tr th {
     background:transparent;
     border-bottom:2px solid #000;
+}
+
+td.terminchoice {
+    text-align:center;
+}
+
+td.terminchoice a {
+    text-decoration:none;
+}
+
+.t tbody tr td.terminchoice.yes {
+    background:#D9FAD7;
+}
+
+.t tbody tr td.terminchoice.no {
+    background: red;
+}
+
+.t tbody tr td.terminchoice.vllt {
+    background:yellow;
 }
 
 /*  ---- eintippen --- */

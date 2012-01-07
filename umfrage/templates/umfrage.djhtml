@@ -1,0 +1,64 @@
+{% extends "base.djhtml" %}
+
+
+{% block umfrage %}
+class="aktiv"
+{% endblock umfrage %}
+
+
+{% block content %}
+
+<div>
+  <h2>Umfrage: {{ umfrage.name }}</h2>
+  <table class="t">
+    <thead>
+      <tr>
+        <th>Name<br /><small>geantwortet</small></th>
+        {% for o in optionen %}
+        <th class="dyn">{{ o.titel }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for user, votes in umfrage.getUser().iteritems() %}
+      <tr>
+        <td>{{ user.name }}</td>
+        {% for o in optionen %}
+        <th>
+        {%- if o in votes -%}
+        gevotet
+        {%- else -%}
+        nicht gevotet
+        {%- endif -%}
+        </th>
+        {% endfor %}
+      </tr>
+      {% endfor %}
+      <tr>
+        <td>{{ currentuser.username }}</td>
+        {% for o in optionen %}
+          {% if umfrage.get_typ_display() == 'Termin' %}
+          <td class="terminchoice" id="{{ o.id }}">
+            <a href="#ja">Ja</a> <br />
+            <a href="#nein">Nein</a> <br />
+            <a href="#vielleicht">Vielleicht</a>
+          </td>
+          {% else %}
+          <td>
+
+          </td>
+          {% endif %}
+        {% endfor %}
+      </tr>
+      <tr class="save">
+        <td colspan="{{ optionen|count|int + 1 }}">
+          {% csrf_token %}
+          <input type="submit" value="Speichern" class="savebutton" />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br style="clear:both"/>
+</div>
+
+{% endblock content %}

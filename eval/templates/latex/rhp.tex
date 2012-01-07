@@ -1,0 +1,170 @@
+%  Liste der Dateien:
+%  
+%  # rhp.sty: Stile, befehle, eingebundene Pakete usw. der RHP. Sozusagen die gesamte Präambel
+%  # vorwort.eps: Das Bildchen, was diese Statistikkästen erläutert.
+%  # titel.tex: Titelseite
+%  
+%  TODOs:
+%  
+%  # rhp.tex sollte so einfach wie möglich gehalten werden. Daher: möglichst viele Makros
+%    schreiben, um die Struktur der RHP zu vereinfachen. Bsp: DIe ganzen newpages usw. 
+%  # vorwort.eps sollte eine tikz oder pstricks grafik werden. 
+%  # ALLES UTF-8 bitte!
+%  # \Stats überarbeiten vielleicht...
+
+
+
+\documentclass[oneside,12pt, headinclude=true, footinclude=false]{scrreprt}
+
+% Alle Stildefinitionen, Pakete und Befehle werden in rhp.sty definiert.
+\usepackage{rhp}
+
+\begin{document}
+
+%\pagestyle{empty}
+
+\BLOCK{for vl in vorlesungen}
+
+\BLOCK{if vl.antwortboegen.all()|count > 0}
+
+\setcounter{page}{1}
+\Kopfklein{\VAR{vl.name}}{\VAR{ vl.dozenten.all()|concat}}
+
+\genehm{\VAR{ vl.dozenten.all()|concat}}
+\newpage
+
+\centerline{\bf Abgegebene Fragebögen: \VAR{vl.antwortboegen.all()|count}}
+
+\begin{center}
+  \begin{tabular}{p{3cm}p{3cm}p{5cm}l}
+    {\bf Semesterverteilung:}&&{\bf Studiengänge:}& \\
+    \BLOCK{for index in range(vl.studiengang_dist()|max(vl.semester_dist()))}
+    \BLOCK{if vl.semester_dist()|count > index -}
+      Semester \VAR{vl.semester_dist()[index]['key']}: & \VAR{vl.semester_dist()[index]['val']} 
+    \BLOCK{- else} & \BLOCK{endif -}
+    &
+    \BLOCK{- if vl.studiengang_dist()|count > index -}
+      \VAR{vl.studiengang_dist()[index]['key']}: & \VAR{vl.studiengang_dist()[index]['val']} 
+    \BLOCK{- else} & \BLOCK{endif} \\
+    \BLOCK{endfor}
+  \end{tabular}
+\end{center}
+\Strich
+
+% auswertung
+\BLOCK{for fragenset in vl.fragebogen.fragensets.all()}
+  \BLOCK{for frage in fragenset.fragen(fragen)} 
+    \BLOCK{if not frage.fragentyp.texttype and frage.total(vl) > 0}
+      \Frage{\VAR{frage.text}}{\VAR{frage.total(vl)}}
+      \BLOCK{- for option in frage.fragentyp.fast_optionen(optionen) -}
+        \BLOCK{- if loop.first -}
+          {\VAR{option.text|latexify}}{\Stats 
+        \BLOCK{- endif -}
+        {\VAR{(option.value(vl, frage) * 100)|int}}
+        \BLOCK{- if loop.last -}
+          {\VAR{((frage.mean(vlu)-1) * 100)|int}}
+          {\VAR{((frage.mean(vl)-1) * 100)|int}}}
+          {\VAR{option.text|latexify}}
+        \BLOCK{- endif -}
+      \BLOCK{- endfor} \\
+    \BLOCK{- endif}
+  \BLOCK{endfor}
+\BLOCK{endfor}
+
+\Strich
+\centerline{\large Liste aller Kommentare:}
+
+\BLOCK{for fragenset in vl.fragebogen.fragensets.all() -}
+  \BLOCK{- for frage in fragenset.fragen(fragen) -}
+    \BLOCK{- if frage.fragentyp.texttype and frage.id != 34}
+      {\bf \VAR{frage.text}}
+      \BLOCK{if frage.antworten(vl)|count > 0 -}
+        \begin{itemize}
+          \setlength{\itemsep}{0cm} \setlength{\parsep}{0cm}
+        \BLOCK{for k in frage.antworten(vl)}
+          \item \VAR{k.text|latexify}
+        \BLOCK{endfor}
+        \end{itemize}
+      \BLOCK{else}
+        \begin{itemize}\item Keine Kommentare\end{itemize}
+      \BLOCK{endif -}
+    \BLOCK{- endif -}
+
+    \BLOCK{- if frage.fragentyp.texttype and frage.id == 34}
+      {\bf \VAR{frage.text}}
+      \BLOCK{if vl.tutoren.all()|count > 0}
+        \begin{itemize}
+        \BLOCK{for tutor in vl.tutoren.all()}
+          \item Gruppe von \VAR{tutor.name}
+          \BLOCK{if frage.antworten(vl, tutor)|count > 0 -}
+            \begin{itemize}
+              \setlength{\itemsep}{0cm} \setlength{\parsep}{0cm}
+            \BLOCK{for k in frage.antworten(vl, tutor)}
+              \item \VAR{k.text|latexify}
+            \BLOCK{endfor}
+            \end{itemize}
+          \BLOCK{- else -}
+            \begin{itemize}\item Keine Kommentare\end{itemize}
+          \BLOCK{endif -}
+        \BLOCK{- endfor -}
+        \end{itemize}
+      \BLOCK{else}
+        \begin{itemize}\item Keine Kommentare\end{itemize}
+      \BLOCK{- endif}
+    \BLOCK{endif}
+  \BLOCK{- endfor -}
+\BLOCK{- endfor}
+
+\BLOCK{for fragenset in vl.fragebogen.fragensets.all() -}
+  \BLOCK{- for frage in fragenset.fragen(fragen) -}
+    \BLOCK{- if frage.fragentyp.texttype and frage.id == 34}
+      \BLOCK{if vl.tutoren.all()|count > 0}
+        \BLOCK{for tutor in vl.tutoren.all()}
+          \BLOCK{if frage.antworten(vl, tutor)|count > 0 -}
+            \newpage
+            \genehm{\VAR{tutor.name}}
+            \newpage
+            
+            \centerline{\bf Abgegebene Fragebögen: \VAR{vl.antwortboegen.all()|count}}
+            
+            \begin{center}
+              \begin{tabular}{p{3cm}p{3cm}p{5cm}l}
+                {\bf Semesterverteilung:}&&{\bf Studiengänge:}& \\
+                \BLOCK{for index in range(vl.studiengang_dist()|max(vl.semester_dist()))}
+                \BLOCK{if vl.semester_dist()|count > index -}
+                Semester \VAR{vl.semester_dist()[index]['key']}: & \VAR{vl.semester_dist()[index]['val']} 
+                \BLOCK{- else} & \BLOCK{endif -}
+                &
+                \BLOCK{- if vl.studiengang_dist()|count > index -}
+                \VAR{vl.studiengang_dist()[index]['key']}: & \VAR{vl.studiengang_dist()[index]['val']} 
+                \BLOCK{- else} & \BLOCK{endif} \\
+                \BLOCK{endfor}
+              \end{tabular}
+            \end{center}
+            \Strich
+
+            {\bf \VAR{frage.text}}\\
+            Tutor: \VAR{tutor.name}
+      
+            \begin{itemize}
+            \BLOCK{for k in frage.antworten(vl, tutor)}
+              \item \VAR{k.text|latexify}
+            \BLOCK{endfor}
+            \end{itemize}
+          \BLOCK{endif}
+        \BLOCK{- endfor -}
+      \BLOCK{endif}
+    \BLOCK{endif}
+  \BLOCK{- endfor -}
+\BLOCK{- endfor}
+
+
+
+\BLOCK{endif} % anzahl vorlesungen
+
+\newpage
+
+\BLOCK{endfor}
+
+\end{document}
+

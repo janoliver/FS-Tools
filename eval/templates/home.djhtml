@@ -21,7 +21,8 @@ class="aktiv"
       <tr>
         <td>{{ vlu.name }}</td>
         <td class="buttons">
-          <a href="vlu{{ vlu.id }}" class="button green add vlu">Vorlesungen anzeigen</a>
+          <a href="/eval/export/{{ vlu.id }}" class="button green">Einverständniserklärungen exportieren</a>
+          <a href="vlu{{ vlu.id }}" class="button green vlu">Vorlesungen anzeigen</a>
         </td>
       </tr>
       <tr  class="tpl vlu{{ vlu.id }}">
@@ -45,8 +46,8 @@ class="aktiv"
                 <td>{{ vl.fragenset }}</td>
                 <td>{{ vl.antwortboegen.all()|length }}</td>
                 <td class="buttons">
-                  <a href="/eval/kommentare/{{ vl.id }}/" class="button green add">Kommentare</a>
-                  <a href="/eval/vorlesung/{{ vl.id }}/" class="button green add">Antworten</a>
+                  <a href="/eval/kommentare/{{ vl.id }}/" class="button green">Kommentare</a>
+                  <a href="/eval/vorlesung/{{ vl.id }}/" class="button green">Antworten</a>
                 </td>
               </tr>
               {% endfor %}

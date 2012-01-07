@@ -1,0 +1,37 @@
+{% extends "base.djhtml" %}
+
+
+{% block umfrage %}
+class="aktiv"
+{% endblock umfrage %}
+
+
+{% block content %}
+
+<div>
+  <h2>Umfragen</h2>
+  <table class="t">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Erstellt am</th>
+        <th colspan="2"># beantwortet</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in umfragen %}
+      <tr>
+        <td>{{ u.name }}</td>
+        <td>{{ u.date_created }}</td>
+        <td>{{ u.votes.values('user').distinct()|count }}
+        <td class="buttons">
+          <a href="/umfrage/{{ u.id }}" class="button green">Anzeigen</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br style="clear:both"/>
+</div>
+
+{% endblock content %}

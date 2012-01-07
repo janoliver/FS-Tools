@@ -72,7 +72,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     #'django_extensions',
-    'eval', 'rhp', 'protokoll', 'default',
+    'eval', 'rhp', 'protokoll', 'umfrage', 'default',
 )
 
 # A sample logging configuration. The only tangible logging

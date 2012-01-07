@@ -22,7 +22,7 @@ class="aktiv"
         <td>{{ rhp.name }}</td>
         <td class="buttons">
           <a href="/rhp/export/{{ rhp.id }}" class="button green">LaTeX exportieren</a>
-          <a href="rhp{{ rhp.id }}" class="button green add vlu">Artikel anzeigen</a>
+          <a href="rhp{{ rhp.id }}" class="button green vlu">Artikel anzeigen</a>
         </td>
       </tr>
       <tr  class="tpl rhp{{ rhp.id }}">
@@ -33,7 +33,7 @@ class="aktiv"
                 <th>Titel</th>
                 <th>Autor</th>
                 <th>Reihenfolge</th>
-                <th class="buttons"><a href="/rhp/{{ rhp.id }}/artikel/" class="button green add">Artikel hinzufügen</a></th>
+                <th class="buttons"><a href="/rhp/{{ rhp.id }}/artikel/" class="button green">Artikel hinzufügen</a></th>
               </tr>
             </thead>
             <tbody>
@@ -47,7 +47,7 @@ class="aktiv"
                   {% if loop.index < rhp.artikel.all()|count %}<a href="/rhp/move/{{ artikel.id }}/down">&darr;</a>{% endif %}
                 </td>
                 <td class="buttons">
-                  <a href="/rhp/{{ rhp.id }}/artikel/{{ artikel.id }}/" class="button green add">Artikel bearbeiten</a>
+                  <a href="/rhp/{{ rhp.id }}/artikel/{{ artikel.id }}/" class="button green">Artikel bearbeiten</a>
                 </td>
               </tr>
               {% endfor %}

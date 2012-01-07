@@ -6,7 +6,8 @@ from jinja2 import Environment,  PackageLoader
 from rhp.models import Rhp, Artikel
 from eval.models import Vlu, Frage, Fragenset, Option
 from django.contrib.auth.decorators import login_required
-import os, shutil
+import zipfile, tempfile
+from cStringIO import StringIO
 
 t = TemplateHelper('rhp')
 
@@ -83,15 +84,35 @@ def export(request, rhp_id):
         'vorlesungen': rhp.vlu.vorlesungen.select_related(),
         'artikel': rhp.artikel.all()
         }
-        
+
+    files    = []
+    tmpfiles = []
     for tpl in latex_helper.env.list_templates():
         if tpl and (tpl.find('.tex') > 0 or tpl.find('.sty') > 0):
             template = latex_helper.env.get_template(tpl)
-            f = open(rhp.saveto + tpl, 'w')
+            f = tempfile.NamedTemporaryFile()
             f.write(template.render(context).encode("utf8"))
-            f.close()
+            #f.close()
+            tmpfiles.append((tpl, f))
         else:
-            shutil.copy(loader.get_source(latex_helper.env, tpl)[1], rhp.saveto)
+            files.append((tpl, loader.get_source(latex_helper.env, tpl)[1]))
             
-    messages.success(request, 'Erfolgreich erstellt.')
-    return HttpResponseRedirect("/rhp")
+    # return as a zip file. from here: https://code.djangoproject.com/wiki/CookBookDynamicZip
+    response = HttpResponse(mimetype='application/zip')
+    response['Content-Disposition'] = 'filename='+ rhp.name +'.zip'
+    
+    buffer = StringIO()
+    zip    = zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED)
+    for name, f in tmpfiles:
+        zip.write(f.name, rhp.name+'/'+name)
+        f.close()
+        
+    for name, f in files:
+        zip.write(f, rhp.name+'/'+name)
+        
+    zip.close()
+    buffer.flush()
+
+    response.write(buffer.getvalue())
+    buffer.close()
+    return response

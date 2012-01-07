@@ -19,7 +19,7 @@ class="aktiv"
         <th>Eingetippt</th>
         <th>Bearbeitet</th>
         <th class="buttons">
-          <a href="/eval/editbogen/{{ vl.id  }}" class="button green add">Neuen Bogen eintippen</a>
+          <a href="/eval/editbogen/{{ vl.id  }}" class="button green">Neuen Bogen eintippen</a>
         </th>
       </tr>
     </thead>
@@ -32,7 +32,7 @@ class="aktiv"
         <td>{{ b.date_created }}</td>
         <td>{{ b.date_modified }}</td>
         <td class="buttons">
-          <a href="/eval/editbogen/{{ vl.id  }}/{{ b.id }}" class="button yellow add">Bogen Bearbeiten</a>
+          <a href="/eval/editbogen/{{ vl.id  }}/{{ b.id }}" class="button yellow">Bogen Bearbeiten</a>
         </td>
       </tr>
       {% endfor %}
