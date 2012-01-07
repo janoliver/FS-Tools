@@ -144,7 +144,6 @@ def export_einverst(request, vlu_id):
         'vorlesungen': vlu.vorlesungen.select_related()
         }
 
-    files = []
     tmpfiles = []
     for tpl in latex_helper.env.list_templates():
         if tpl and (tpl.find('.tex') > 0 or tpl.find('.sty') > 0):
@@ -163,9 +162,6 @@ def export_einverst(request, vlu_id):
     for name, f in tmpfiles:
         zip.write(f.name, vlu.name+'/'+name)
         f.close()
-
-    for name, f in files:
-        zip.writestr(vlu.name+'/'+name, f)
 
     zip.close()
     buffer.flush()
