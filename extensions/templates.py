@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from jinja2 import Environment, FileSystemLoader, PackageLoader, ChoiceLoader
 from django.template import RequestContext
 from django.conf import settings
+from django.utils import simplejson
 
 class TemplateHelper:
     def __init__(self, app=None, folder='templates'):
@@ -9,6 +10,9 @@ class TemplateHelper:
                         PackageLoader(app, folder),
                         PackageLoader('default'),
                     ]), extensions=list(settings.JINJA_EXTS))
+        
+        self.env.filters['date'] = self.datetimeformat
+        self.env.filters['none'] = self.none
 
     def render(self, filename, context={}, mimetype='text/html', req=None):
         args = context
@@ -19,7 +23,17 @@ class TemplateHelper:
         rendered = template.render(**args)
         return HttpResponse(rendered,mimetype=mimetype)
 
+    def ajax(self, context = {}, mimetype='application/json'):
+        return HttpResponse(simplejson.dumps(context),mimetype=mimetype)
 
+    def datetimeformat(self, value, format='%d.%m.%Y'):
+        return value.strftime(format)
+
+    def none(self, value, replacement=''):
+        if not value:
+            return replacement
+        return value
+        
 class LatexHelper:
     def __init__(self, loader):
         self.env = Environment(

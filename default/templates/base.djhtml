@@ -12,8 +12,8 @@
   <script type="text/javascript" src="/static/js/eval.js"></script>
 </head>
 <body>
-  <div id="coat">
-    <div id="header">
+  <div id="header">
+    <div class="coat">
       <ul>
         <li><a href="/" {% block start %}{% endblock %}>Start</a></li>
         <li><a href="/rhp" {% block rhp %}{% endblock %}>Renthofpostille</a></li>
@@ -26,6 +26,8 @@
       </ul>
       <h1>FS Tools</h1>
     </div>
+  </div>
+  <div class="coat">
     {% if messages %}
     <ul class="messages">
       {% for message in messages %}
@@ -36,7 +38,10 @@
     <div id="content">
       {% block content %}{% endblock %}
     </div>
-    <div id="footer">
+  </div>
+  
+  <div id="footer">
+    <div class="coat">
       &copy; Fachschaft Physik, Marburg, 2011. Version 1.0. 
     </div>
   </div>

@@ -160,7 +160,7 @@ eigentlich immer gut ankommt. Sollten sich trotzdem irgendwelche Probleme ergebe
 
 % auswertung
 \BLOCK{for fragenset in vl.fragebogen.fragensets.all()}
-  \BLOCK{for frage in fragenset.fragen(fragen)} 
+  \BLOCK{for frage in fragenset.fragenn(fragen)} 
     \BLOCK{if not frage.fragentyp.texttype and frage.total(vl) > 0}
       \Frage{\VAR{frage.text}}{\VAR{frage.total(vl)}}
       \BLOCK{- for option in frage.fragentyp.fast_optionen(optionen) -}
@@ -182,7 +182,7 @@ eigentlich immer gut ankommt. Sollten sich trotzdem irgendwelche Probleme ergebe
 \centerline{\large Liste aller Kommentare:}
 
 \BLOCK{for fragenset in vl.fragebogen.fragensets.all() -}
-  \BLOCK{- for frage in fragenset.fragen(fragen) -}
+  \BLOCK{- for frage in fragenset.fragenn(fragen) -}
     \BLOCK{- if frage.fragentyp.texttype and frage.id != 34}
       {\bf \VAR{frage.text}}
       \BLOCK{if frage.antworten(vl)|count > 0 -}

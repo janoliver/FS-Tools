@@ -3,3 +3,4 @@
 *.el
 fstools.sqlite
 initial_data.json
+deploy.sh

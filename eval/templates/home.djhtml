@@ -10,6 +10,7 @@ class="aktiv"
 
 <div>
   <h2>Vorlesungsumfragen</h2>
+  <div class="blockwrapper">
   <table class="t" id="admin-personaltyp">
     <thead>
       <tr>
@@ -21,8 +22,8 @@ class="aktiv"
       <tr>
         <td>{{ vlu.name }}</td>
         <td class="buttons">
-          <a href="/eval/export/{{ vlu.id }}" class="button green">Einverständniserklärungen exportieren</a>
-          <a href="vlu{{ vlu.id }}" class="button green vlu">Vorlesungen anzeigen</a>
+          <a href="/eval/export/{{ vlu.id }}" class="button">Einverständniserklärungen exportieren</a>
+          <a href="vlu{{ vlu.id }}" class="button vlu">Vorlesungen anzeigen</a>
         </td>
       </tr>
       <tr  class="tpl vlu{{ vlu.id }}">
@@ -32,7 +33,7 @@ class="aktiv"
               <tr>
                 <th>Vorlesung</th>
                 <th>Dozent</th>
-                <th>Fragenset</th>
+                <th>Fragebogen</th>
                 <th>Boegen eingetippt</th>
                 <th></th>
               </tr>
@@ -43,11 +44,11 @@ class="aktiv"
               <tr>
                 <td>{{ vl.name }}</td>
                 <td>{{ vl.dozenten.all()|join(", ") }}</td>
-                <td>{{ vl.fragenset }}</td>
+                <td>{{ vl.fragebogen.name }}</td>
                 <td>{{ vl.antwortboegen.all()|length }}</td>
                 <td class="buttons">
-                  <a href="/eval/kommentare/{{ vl.id }}/" class="button green">Kommentare</a>
-                  <a href="/eval/vorlesung/{{ vl.id }}/" class="button green">Antworten</a>
+                  <a href="/eval/kommentare/{{ vl.id }}/" class="button">Kommentare</a>
+                  <a href="/eval/vorlesung/{{ vl.id }}/" class="button">Antworten</a>
                 </td>
               </tr>
               {% endfor %}
@@ -58,7 +59,8 @@ class="aktiv"
       {% endfor %}
     </tbody>
   </table>
-  <br style="clear:both"/>
+  </div>
+  
 </div>
 
 {% endblock content %}

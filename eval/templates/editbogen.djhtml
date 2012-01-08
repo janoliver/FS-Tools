@@ -8,7 +8,8 @@ class="aktiv"
 {% block content %}
 
 <h2>VLU: {{ vl.vlu }}, Vorlesung: {{ vl }}, {% if ab.pk %}Bogen bearbeiten{% else %}Neuer Bogen{% endif %}</h2>
-
+<div class="blockwrapper">
+<div class="titlerow">Navigieren mit tab und shift-tab</div>
 <form class="bogen" method="post" action="/eval/editbogen/{{ vl.id }}{% if ab.pk %}/{{ ab.id }}{% endif %}">
   {% csrf_token %}
   <div class="frage thirds">
@@ -75,9 +76,9 @@ class="aktiv"
     <div class="inner">
       <ul class="options">
         {% for o in frage.fragentyp.optionen.all() %}
-        <li><input type="radio" name="frage{{ frage.id }}" value="{{ o.id }}" 
+        <li>{{ o.text }}<input type="radio" name="frage{{ frage.id }}" value="{{ o.id }}" 
                    {% if ab.pk and ab.getAntwort(frage) == o.id %}checked="checked"{% endif %}> 
-          {{ o.text }}
+          
         </li>
         {% endfor %}
       </ul>
@@ -94,6 +95,6 @@ class="aktiv"
   <br class="clear" />
 
 </form>
-
+</div>
 
 {% endblock content %}

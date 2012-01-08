@@ -8,8 +8,8 @@ class="aktiv"
 {% block content %}
 
 <h2>VLU: {{ vl.vlu }}, Vorlesung: {{ vl }}, Kommentare bearbeiten</h2>
-
-
+<div class="blockwrapper">
+<div class="titlerow">Hier können die Kommentare der Vorlesung korrektur gelesen und bearbeitet werden.</div>
 <form class="bogen" method="post" action="/eval/kommentare/{{ vl.id }}">
   {% csrf_token %}
 
@@ -26,6 +26,5 @@ class="aktiv"
   <br class="clear" />
 
 </form>
-
-
+</div>
 {% endblock content %}

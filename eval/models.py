@@ -85,7 +85,7 @@ class Frage(cmodels.Timestamped_Model):
 
     def belongs_to_fragenset(self, fragenset):
         if not self.fragenset_cache:
-            self.fragenset_cache = [x.fragenset for x in self.fragensets.all()]
+            self.fragenset_cache = [x for x in self.fragensets.all()]
         for fs in self.fragenset_cache:
             if fs == fragenset:
                 return True
@@ -124,7 +124,7 @@ class Fragebogen(cmodels.Timestamped_Model):
         return self.name
 
 class FrageFragenset(models.Model):
-    frage        = models.ForeignKey('Frage', related_name='fragensets')
+    frage        = models.ForeignKey('Frage')
     fragenset    = models.ForeignKey('Fragenset')
     rank         = models.PositiveIntegerField(blank=True, null=True)
 
@@ -136,7 +136,7 @@ class Fragenset(cmodels.Timestamped_Model):
     titel        = models.CharField(max_length=255)
     fragen       = models.ManyToManyField('Frage', related_name='fragensets', through='FrageFragenset')
     
-    def fragen(self, fragen):
+    def fragenn(self, fragen):
         return [x for x in fragen if x.belongs_to_fragenset(self)]
     
     class Meta:

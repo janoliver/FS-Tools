@@ -16,6 +16,7 @@ Abhängigkeiten
 * django 1.3
 * Python > 2.5
 * Sqlite3
+* South http://south.aeracode.org/ für Datenbank Migrationen
 
 Installation:
 =============

@@ -10,6 +10,7 @@ class="aktiv"
 
 <div>
   <h2>Antwortbögen</h2>
+  <div class="blockwrapper">
   <table class="t">
     <thead>
       <tr>
@@ -17,28 +18,28 @@ class="aktiv"
         <th>Tutor</th>
         <th>Semester</th>
         <th>Eingetippt</th>
-        <th>Bearbeitet</th>
+        <th>... von</th>
         <th class="buttons">
-          <a href="/eval/editbogen/{{ vl.id  }}" class="button green">Neuen Bogen eintippen</a>
+          <a href="/eval/editbogen/{{ vl.id  }}" class="button">Neuen Bogen eintippen</a>
         </th>
       </tr>
     </thead>
     <tbody>
       {% for b in vl.antwortboegen.all() %}
       <tr>
-        <td>{{ b.studiengang }}</td>
-        <td>{{ b.tutor }}</td>
-        <td>{{ b.semester }}</td>
-        <td>{{ b.date_created }}</td>
-        <td>{{ b.date_modified }}</td>
+        <td>{{ b.studiengang|none }}</td>
+        <td>{{ b.tutor|none }}</td>
+        <td>{{ b.semester|none }}</td>
+        <td>{{ b.date_created|date }}</td>
+        <td>{{ b.user.username }}</td>
         <td class="buttons">
-          <a href="/eval/editbogen/{{ vl.id  }}/{{ b.id }}" class="button yellow">Bogen Bearbeiten</a>
+          <a href="/eval/editbogen/{{ vl.id  }}/{{ b.id }}" class="button">Bogen Bearbeiten</a>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-  <br style="clear:both"/>
+  </div>
 </div>
 
 {% endblock content %}

@@ -19,8 +19,8 @@ class Umfrage(cmodels.Timestamped_Model):
         ar = dict()
         for v in self.votes.select_related():
             if not v.user in ar:
-                ar[user] = dict()
-            ar[user][v.option] = v
+                ar[v.user] = dict()
+            ar[v.user][v.option] = v
             
         return ar
             
@@ -46,6 +46,7 @@ class Vote(cmodels.Timestamped_Model):
     user    = models.ForeignKey(User, related_name='votes')
     option  = models.ForeignKey('Option', related_name='votes')
     umfrage = models.ForeignKey('Umfrage', related_name='votes')
+    choice  = models.IntegerField(null=True)
     
     def __unicode__(self):
         return self.titel

@@ -9,14 +9,15 @@ class="aktiv"
 {% block content %}
 
 <h2>RHP: {{ rhp.name }}, {% if artikel.pk %}Artikel bearbeiten{% else %}Neuer Artikel{% endif %}</h2>
-
+<div class="blockwrapper">
+<div class="titlerow">Es kann LaTeX benutzt werden!</div>
 <form class="bogen" method="post" action="/rhp/{{ rhp.id }}/artikel{% if artikel.pk %}/{{ artikel.id }}{% endif %}">
   {% csrf_token %}
   <div class="frage">
     <div class="inner">
       Titel:
       <div class="options long">
-        <input type="text" name="titel" value="{{ artikel.titel }}" />
+        <input type="text" class="textinput" name="titel" value="{{ artikel.titel }}" />
       </div>
     </div>
   </div>
@@ -25,7 +26,7 @@ class="aktiv"
     <div class="inner">
       Autor:
       <div class="options long">
-        <input type="text" name="autor" value="{{ artikel.autor }}" />
+        <input type="text" class="textinput" name="autor" value="{{ artikel.autor }}" />
       </div>
     </div>
   </div>
@@ -41,6 +42,6 @@ class="aktiv"
   <br class="clear" />
 
 </form>
-
+</div>
 
 {% endblock content %}

@@ -10,10 +10,11 @@ class="aktiv"
 
 <div>
   <h2>Umfrage: {{ umfrage.name }}</h2>
+  <div class="blockwrapper">
   <table class="t">
     <thead>
       <tr>
-        <th>Name<br /><small>geantwortet</small></th>
+        <th>Name</th>
         {% for o in optionen %}
         <th class="dyn">{{ o.titel }}</th>
         {% endfor %}
@@ -22,20 +23,21 @@ class="aktiv"
     <tbody>
       {% for user, votes in umfrage.getUser().iteritems() %}
       <tr>
-        <td>{{ user.name }}</td>
+        <td class="titletd">{{ user.username }}</td>
         {% for o in optionen %}
-        <th>
         {%- if o in votes -%}
-        gevotet
+        <td class="choices choice{{ votes[o].choice }}">
+        {{ choices[votes[o].choice] }}
         {%- else -%}
-        nicht gevotet
+        <td>-
         {%- endif -%}
-        </th>
+        </td>
         {% endfor %}
       </tr>
       {% endfor %}
+      {% if not currentuser in umfrage.getUser() %}
       <tr>
-        <td>{{ currentuser.username }}</td>
+        <td class="titletd">{{ currentuser.username }}</td>
         {% for o in optionen %}
           {% if umfrage.get_typ_display() == 'Termin' %}
           <td class="terminchoice" id="{{ o.id }}">
@@ -56,9 +58,13 @@ class="aktiv"
           <input type="submit" value="Speichern" class="savebutton" />
         </td>
       </tr>
+      
+      {% endif %}
     </tbody>
   </table>
+  </div>
   <br style="clear:both"/>
+
 </div>
 
 {% endblock content %}

@@ -1,3 +1,4 @@
+// -*- coding: utf-8 -*-
 $(document).ready(function() {
     
     // make messages according to djangos messages
@@ -50,31 +51,30 @@ $(document).ready(function() {
     choiceArray['#ja'] = 'yes';
     choiceArray['#nein'] = 'no';
     choiceArray['#vielleicht'] = 'vllt';
-    
-    $(".terminchoice a:not(.chosen)").hover(function() {
-        $(this).parent().addClass(choiceArray[$(this).attr('href')]);
-    }, function() {
-        if(!$(this).parent().hasClass('chosen'))
-            $(this).parent().removeClass(choiceArray[$(this).attr('href')]);
-    });
 
+    // click on one of the choices for termine
     $(".terminchoice a").click(function(e) {
         e.preventDefault();
-        classs = choiceArray[$(this).attr('href')];
+
+        // add classes to the td
         td = $(this).parent();
-        if(!td.hasClass('chosen')) td.addClass('chosen');
-        for( var choice in choiceArray) { 
+        td.addClass('chosen');
+        for( var choice in choiceArray)
             td.removeClass(choiceArray[choice]); 
-        };
-        td.addClass(classs);
+        td.addClass(choiceArray[$(this).attr('href')]);
     });
 
+    // click on save answer
     $(".savebutton").click(function(e) {
         e.preventDefault();
-        data = {'csrfmiddlewaretoken':$('input[name="csrfmiddlewaretoken"]').attr('value')}
+        
+        // prepare data array
+        data = {'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').attr('value')}
+
         // create array of chosen answers
         $("td.terminchoice").each(function() {
             
+            // check if every option has a choice
             if(!$(this).hasClass('chosen')) {
                 $.achtung({
 	            message: "Bitte zu allen Optionen etwas auswählen!", 
@@ -84,6 +84,7 @@ $(document).ready(function() {
                 return false;
             }
             
+            // answer codes: yes: 1, no: -1, perhaps: 0
             if($(this).hasClass('yes'))
                 data[$(this).attr('id')] = 1;
             if($(this).hasClass('no'))
@@ -92,7 +93,8 @@ $(document).ready(function() {
                 data[$(this).attr('id')] = 0;
             
         });
-
+        
+        // send vote to server
         $.ajax({
             type: 'POST',
             url: document.location.href, 

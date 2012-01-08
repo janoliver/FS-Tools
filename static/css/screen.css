@@ -10,7 +10,7 @@ body {
     background-repeat: no-repeat;
 }
 
-#coat {
+.coat {
     max-width:1000px;
     margin:0 auto;
 }
@@ -18,7 +18,11 @@ body {
 #header {
     border-bottom:1px solid #aaa;
     padding:10px 0 2px 0;
+    background:linear-gradient(#FAFAFA,#EAEAEA);
+    background:-webkit-linear-gradient(#FAFAFA,#EAEAEA);
+    background:-o-linear-gradient(#FAFAFA,#EAEAEA);
 }
+
 #header h1 {
     font-size: 26px;
     color: #555;
@@ -39,23 +43,22 @@ body {
 #header ul li a:visited {
     display:block;
     text-decoration: none;
-    padding:6px 10px;
-    background: #eee;
+    padding:4px 10px;
     color:#333;
-    font-family:verdana;
-    font-size:10px;
+    font-family:Helvetica, arial;
+    font-size:13px;
+    font-weight:bold;
+    border:1px solid transparent;
 }
-
-#header ul li a.aktiv,
-#header ul li a.aktiv:visited {
-    background-color:#ccc;
-}
-
 
 #header ul li a:hover, 
 #header ul li a.active,
-#header ul li a:active {
-    background: #bbb;
+#header ul li a:active,
+#header ul li a.aktiv {
+    background: #fff;
+    color:#4183C4;
+    border:1px solid #aaa;
+    border-bottom:1px solid #fff;
 }
 
 #footer {
@@ -63,11 +66,16 @@ body {
     font-size: 10px;
     color: #666;
     text-align:right;
-    margin-bottom:100px;
+    padding-bottom:30px;
+    margin-bottom:70px;
+    
+    background:linear-gradient(#EAEAEA,#ffffff);
+    background:-webkit-linear-gradient(#EAEAEA,#ffffff);
+    background:-o-linear-gradient(#EAEAEA,#ffffff);
 }
 
 #content {
-    padding:10px 5px;
+    padding:30px 5px;
 }
 
 #content iframe {
@@ -147,28 +155,47 @@ body {
     font-weight:bold;
     font-size:17px;
     margin-bottom:3px;
+    font-family:Helvetica, arial;
+}
+
+.blockwrapper {
+    padding:3px;
+    background:#eee;
+    border-radius:3px;
+    margin-bottom:20px;   
 }
 
 table.t {
     width:100%;
-    border:1px solid #666;
+    border:1px solid #cacaca;
+    border-radius:3px;
     padding:3px; 
-    margin-bottom:20px;   
 }
-
+.blockwrapper .titlerow,
 .t thead tr th {
     text-align:left;
     font-weight:bold;
-    background:#eee;
+    color:#555;
+    padding:6px 3px;
+    background:linear-gradient(#FAFAFA,#EAEAEA);
+    background: -webkit-linear-gradient(#FAFAFA,#EAEAEA);
+    background:-o-linear-gradient(#FAFAFA,#EAEAEA);
+    text-shadow:0 1px 0 white;
 }
 
-.t thead tr th small {
-    font-weight:normal;
-    font-size:0.8em;
+.blockwrapper .titlerow {
+    border:1px solid #D8D8D8;
+    border-bottom:0;
 }
 
-.t thead tr th.dyn {
-    background:#ccc;
+.t tbody tr td {
+    color:#646464;
+    background:#F8F8F8;
+    border-top:1px solid #D8D8D8;
+}
+
+.t tbody tr td.titletd {
+    font-weight:bold;
 }
 
 .t thead tr th.buttons,
@@ -180,21 +207,9 @@ table.t {
     text-decoration:none;
 }
 
-.t tbody tr td {
-    color:#646464;
-    border-top:1px solid #eee;
-}
-
 .t tbody tr td.inner {
     padding:5px 50px;
-}
-
-.t tbody tr.even td {
-    background: #f7f7f7;
-}
-
-.t tbody tr.odd td {
-    background: #efefef;
+    border-top:0;
 }
 
 .t thead tr th,
@@ -205,7 +220,7 @@ table.t {
 }
 
 .t tbody tr:hover td {
-    background:#ffffcc;
+    background:#fff;
 }
 
 table.ti {
@@ -217,35 +232,38 @@ table.ti thead tr th {
     border-bottom:2px solid #000;
 }
 
-td.terminchoice {
+td.terminchoice,
+td.choices {
     text-align:center;
+    font-weight:bold;
 }
 
 td.terminchoice a {
     text-decoration:none;
 }
 
-.t tbody tr td.terminchoice.yes {
+.t tbody tr td.terminchoice.yes,
+.t tbody tr td.choice1 {
     background:#D9FAD7;
 }
 
-.t tbody tr td.terminchoice.no {
-    background: red;
+.t tbody tr td.terminchoice.no,
+.t tbody tr td.choice-1 {
+    background: #FFCCCA;
 }
 
-.t tbody tr td.terminchoice.vllt {
-    background:yellow;
+.t tbody tr td.terminchoice.vllt,
+.t tbody tr td.choice0 {
+    background:#FFEDA1;
 }
 
 /*  ---- eintippen --- */
 
 .bogen {
-    background:#eee;
-    border:1px solid #888;
-    border-left:1px solid #ccc;
-    border-top:1px solid #ccc;
+    background:#f8f8f8;
+    border:1px solid #D8D8D8;
     padding:10px;
-
+    color:#646464;
     font-size:12px;
     font-family:verdana;
 }
@@ -271,9 +289,9 @@ td.terminchoice a {
 .frage .inner {
     margin:5px;
     background:#fff;
-    padding:3px;
-    border-bottom:1px solid #ccc;
-    border-right:1px solid #ccc;
+    padding:5px;
+    border-radius:3px;
+    border:1px solid #eaeaea;
     overflow:hidden;
 }
 
@@ -283,13 +301,17 @@ td.terminchoice a {
 
 .frage .inner .options {
     float:right;
-    border-left:1px solid #ccc;
+    
+}
+
+.frage .inner .options li {
+    text-align:right;
 }
 
 .frage .inner .options.long {
     float:right;
+    text-align:right;
     width:80%;
-    border-left:1px solid #ccc;
 }
 
 .frage .inner .options.long input {
@@ -305,33 +327,39 @@ td.terminchoice a {
     border:1px solid #ccc;
     height:68px;
     line-height:18px;
-    background:url(/static/images/inputbg.png) top left #fff;
+    background:#333;
+    color:#eee;
     font-family: Verdana;
+    margin-top:5px;
 }
 
 .textfrage textarea.long {
     height:500px;
 }
 
+.frage .textinput {
+    border:1px solid #ccc;
+    line-height:18px;
+    background:#333;
+    color:#eee;
+    font-family: Verdana;
+}
+
 .rightbutton {
     float:right;
-    border:1px solid #333;
-    border-radius:5px;
-    
-    background: -moz-linear-gradient(19% 75% 90deg, #E0E0E0, #FAFAFA);
-    background: -webkit-gradient(linear, left top, left bottom, from(#FAFAFA), to(#E0E0E0));
-    
+    border:1px solid #eaeaea;
+    border-radius:3px;
+    background:#4D90FE;
     font-family:arial,helvetica,sans-serif;
     font-size:12px;
     font-weight:bold;
     padding:5px 8px;
-
+    color:#fff;
     cursor:pointer;
 }
 
 .rightbutton:hover{
-    background: -moz-linear-gradient(19% 75% 90deg,#D6D6D6, #FAFAFA);
-    background: -webkit-gradient(linear, left top, left bottom, from(#FAFAFA), to(#D6D6D6));
+    background:#5DA0FF;
 }
 
 /* ---- random styles */
@@ -348,40 +376,22 @@ td.terminchoice a {
     clear:both;
 }
 
-/* --- the fancy buttons -- */
-a.button {
+/* --- the not so ... fancy buttons -- */
+a.button,
+td.terminchoice a {
     text-decoration:none;
-    color:#fff;
-    background:#cbcbcb;
+    color:#4183C4;
     font-family:Arial;
-    font-size:11px;
-    padding:2px 3px;
-
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
+    font-size:12px;
+    font-weight:bold;
+    padding-left:10px;
 }
 
-a.button.active {
-    background:#0099ff;
+a.button:hover,
+td.terminchoice a:hover {
+    text-decoration:underline;
 }
 
-
-a.button.green:hover {
-    background:#33cc33;
-}
-
-a.button.red:hover  {
-    background:#cc3333;
-}
-
-a.button.yellow:hover  {
-    background:#ffcc33;
-}
-
-a.button.blue:hover {
-    background:#0099ff;
-}
 
 /* ******* Messages ************ */
 .messages {

@@ -10,6 +10,7 @@ class="aktiv"
 
 <div>
   <h2>Umfragen</h2>
+  <div class="blockwrapper">
   <table class="t">
     <thead>
       <tr>
@@ -22,16 +23,16 @@ class="aktiv"
       {% for u in umfragen %}
       <tr>
         <td>{{ u.name }}</td>
-        <td>{{ u.date_created }}</td>
+        <td>{{ u.date_created|date }}</td>
         <td>{{ u.votes.values('user').distinct()|count }}
         <td class="buttons">
-          <a href="/umfrage/{{ u.id }}" class="button green">Anzeigen</a>
+          <a href="/umfrage/{{ u.id }}" class="button">Anzeigen</a>
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-  <br style="clear:both"/>
+</div>
 </div>
 
 {% endblock content %}
