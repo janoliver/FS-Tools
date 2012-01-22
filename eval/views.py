@@ -112,8 +112,13 @@ def comments(request, vl_id):
             for key, val in reqdata.iteritems():
                 if key.find('antwort') == 0:
                     a = Antwort.objects.get(pk=int(key[7:]))
-                    a.text = val
-                    a.save()
+                    
+                    # delete the answer if text is empty.
+                    if val == "":
+                        a.delete()
+                    else:
+                        a.text = val
+                        a.save()
 
         messages.success(request, "Kommentare gespeichert")
     
