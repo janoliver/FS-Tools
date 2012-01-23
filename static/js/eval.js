@@ -36,6 +36,8 @@ $(document).ready(function() {
                     $('ul li:nth-child(' + n + ')', act).find('input').attr('checked', true);            
                 if(act.find("select").length > 0)
                     $('select :nth-child(' + n + ')', act).attr('selected', 'selected');
+                
+                act.nextAll('.frage:first').find('input, textarea, select').focus();
             }
 
             if(key.which == 9) {
