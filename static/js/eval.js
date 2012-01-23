@@ -40,7 +40,7 @@ $(document).ready(function() {
 
             if(key.which == 9) {
                 key.preventDefault();
-                act.next('.frage').dinf('input, textarea, select').focus();
+                act.next('.frage').find('input, textarea, select').focus();
             }
         });
 
