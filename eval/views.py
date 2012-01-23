@@ -49,10 +49,16 @@ def editbogen(request, vl_id, bogen_id=None):
     if request.method == 'POST':
         # insert bogen into database
         reqdata = request.POST
-        
-        ab.tutor = Personal.objects.get(pk=reqdata['tutor'])
-        ab.studiengang = Studiengang.objects.get(pk=reqdata['studiengang'])
-        ab.semester = reqdata['semester']
+
+        if reqdata['tutor'] != '':
+            ab.tutor = Personal.objects.get(pk=reqdata['tutor'])
+
+        if reqdata['studiengang'] != '':
+            ab.studiengang = Studiengang.objects.get(pk=reqdata['studiengang'])
+
+        if reqdata['semester'] != '':
+            ab.semester = reqdata['semester']
+
         ab.vorlesung = vl
         ab.save()
         transaction.commit()
