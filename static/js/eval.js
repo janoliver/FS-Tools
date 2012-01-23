@@ -43,7 +43,7 @@ $(document).ready(function() {
                 act.nextAll('.frage')[0].find('input, textarea, select').focus();
             }
         });
-
+ 
         $('input, textarea, select').focus(function() {
             $('.frage').removeClass('active');
             $(this).parents('.frage').addClass('active');
