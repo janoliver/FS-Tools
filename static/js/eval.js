@@ -30,7 +30,7 @@ $(document).ready(function() {
             var n = key.which - 48;
             
             var act = $('.frage.active');
-            if(n < 10 && !act.hasClass('textfrage')) {
+            if(n < 10 && n > 0 && !act.hasClass('textfrage')) {
                 key.preventDefault();
                 if(act.find("input[type='radio']").length > 0)
                     $('ul li:nth-child(' + n + ')', act).find('input').attr('checked', true);            
