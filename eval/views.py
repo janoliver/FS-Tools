@@ -70,12 +70,12 @@ def editbogen(request, vl_id, bogen_id=None):
                     try:
                         antwort = ab.antworten.get(frage=frage)
 
-                        if reqdata['frage' + str(frage.id)] == '' or reqdata['frage' + str(frage.id)] == 0:
+                        if 'frage' + str(frage.id) not in reqdata or reqdata['frage' + str(frage.id)] == '' or reqdata['frage' + str(frage.id)] == 0:
                             antwort.delete()
                             continue
                     
                     except Antwort.DoesNotExist:
-                        if reqdata['frage' + str(frage.id)] == '' or reqdata['frage' + str(frage.id)] == 0:
+                        if 'frage' + str(frage.id) not in reqdata or reqdata['frage' + str(frage.id)] == '' or reqdata['frage' + str(frage.id)] == 0:
                             continue
                         
                         antwort = Antwort()
