@@ -61,7 +61,7 @@ def editbogen(request, vl_id, bogen_id=None):
 
         ab.vorlesung = vl
         ab.save()
-        transaction.commit()
+        #transaction.commit()
         
         with transaction.commit_on_success():
             for fragenset in fragensets:
