@@ -25,16 +25,27 @@ $(document).ready(function() {
     if($('.bogen').length > 0) {
         
         $(document).keydown(function(key) {
+            
             // select the focused input
             var n = key.which - 48;
+            
             var act = $('.frage.active');
-            if(act.find("input[type='radio']").length > 0)
-                $('ul li:nth-child(' + n + ')', act).find('input').attr('checked', true);            
-            if(act.find("select").length > 0)
-                $('select :nth-child(' + n + ')', act).attr('selected', 'selected');
+            if(n < 10 && n > 0 && !act.hasClass('textfrage')) {
+                key.preventDefault();
+                if(act.find("input[type='radio']").length > 0)
+                    $('ul li:nth-child(' + n + ')', act).find('input').attr('checked', true);            
+                if(act.find("select").length > 0)
+                    $('select :nth-child(' + n + ')', act).attr('selected', 'selected');
+                
+                act.nextAll('.frage:first').find('input, textarea, select').focus();
+            }
 
+            if(key.which == 9) {
+                key.preventDefault();
+                act.nextAll('.frage:first').find('input, textarea, select').focus();
+            }
         });
-
+ 
         $('input, textarea, select').focus(function() {
             $('.frage').removeClass('active');
             $(this).parents('.frage').addClass('active');

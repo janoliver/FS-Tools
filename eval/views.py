@@ -49,13 +49,19 @@ def editbogen(request, vl_id, bogen_id=None):
     if request.method == 'POST':
         # insert bogen into database
         reqdata = request.POST
-        
-        ab.tutor = Personal.objects.get(pk=reqdata['tutor'])
-        ab.studiengang = Studiengang.objects.get(pk=reqdata['studiengang'])
-        ab.semester = reqdata['semester']
+
+        if reqdata['tutor'] != '':
+            ab.tutor = Personal.objects.get(pk=reqdata['tutor'])
+
+        if reqdata['studiengang'] != '':
+            ab.studiengang = Studiengang.objects.get(pk=reqdata['studiengang'])
+
+        if reqdata['semester'] != '':
+            ab.semester = reqdata['semester']
+
         ab.vorlesung = vl
         ab.save()
-        transaction.commit()
+        #transaction.commit()
         
         with transaction.commit_on_success():
             for fragenset in fragensets:
@@ -64,12 +70,12 @@ def editbogen(request, vl_id, bogen_id=None):
                     try:
                         antwort = ab.antworten.get(frage=frage)
 
-                        if reqdata['frage' + str(frage.id)] == '' or reqdata['frage' + str(frage.id)] == 0:
+                        if 'frage' + str(frage.id) not in reqdata or reqdata['frage' + str(frage.id)] == '' or reqdata['frage' + str(frage.id)] == 0:
                             antwort.delete()
                             continue
                     
                     except Antwort.DoesNotExist:
-                        if reqdata['frage' + str(frage.id)] == '' or reqdata['frage' + str(frage.id)] == 0:
+                        if 'frage' + str(frage.id) not in reqdata or reqdata['frage' + str(frage.id)] == '' or reqdata['frage' + str(frage.id)] == 0:
                             continue
                         
                         antwort = Antwort()
@@ -112,8 +118,13 @@ def comments(request, vl_id):
             for key, val in reqdata.iteritems():
                 if key.find('antwort') == 0:
                     a = Antwort.objects.get(pk=int(key[7:]))
-                    a.text = val
-                    a.save()
+                    
+                    # delete the answer if text is empty.
+                    if val == "":
+                        a.delete()
+                    else:
+                        a.text = val
+                        a.save()
 
         messages.success(request, "Kommentare gespeichert")
     
