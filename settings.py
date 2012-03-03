@@ -61,7 +61,7 @@ ROOT_URLCONF = 'fstools.urls'
 LOGIN_REDIRECT_URL = '/'
 
 AUTHENTICATION_BACKENDS = (
-    'dpam.backends.PAMBackend',
+    'extensions.dpam.backends.PAMBackend',
     )
 
 INSTALLED_APPS = (
