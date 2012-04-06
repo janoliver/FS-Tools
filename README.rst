@@ -11,9 +11,9 @@ Diverse weitere Apps kommen mit der Zeit dazu. (hoffentlich!)
 Abhängigkeiten
 ==============
 
-* Django PAM für die Integration der Linux Benutzerdatenbank:
+* Django PAM fÃ¼r die Integration der Linux Benutzerdatenbank:
   https://bitbucket.org/maze/django-pam
-* django 1.3
+* django 1.4
 * Python > 2.5
 * Sqlite3
 * South http://south.aeracode.org/ für Datenbank Migrationen
