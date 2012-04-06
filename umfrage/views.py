@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.http import Http404
 from django.contrib import messages
-from fstools.extensions.templates import TemplateHelper
+from extensions.templates import TemplateHelper
 from jinja2 import Environment,  PackageLoader
 from umfrage.models import Umfrage, Option, Vote
 from django.contrib.auth.decorators import login_required

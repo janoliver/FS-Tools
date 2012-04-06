@@ -60,6 +60,28 @@ class="aktiv"
     </tbody>
   </table>
   </div>
+
+  <h2>Umfragebögen</h2>
+  <div class="blockwrapper">
+  <table class="t" id="admin-personaltyp">
+    <thead>
+      <tr>
+        <th colspan="2">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for bg in boegen %}
+      <tr>
+        <td>{{ bg.name }}</td>
+        <td class="buttons">
+          <a href="/eval/export_bogen/{{ bg.id }}" class="button">Bogen exportieren</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+
   
 </div>
 

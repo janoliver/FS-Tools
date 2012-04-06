@@ -1,5 +1,5 @@
 from django.http import Http404
-from fstools.extensions.templates import TemplateHelper
+from extensions.templates import TemplateHelper
 from django.contrib.auth.decorators import login_required
 
 t = TemplateHelper('default')

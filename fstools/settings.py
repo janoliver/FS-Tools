@@ -46,7 +46,7 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 )
 
-JINJA_EXTS=('fstools.extensions.jinja.csrf_token',)
+JINJA_EXTS=('extensions.jinja.csrf_token',)
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',

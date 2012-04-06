@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
-import fstools.extensions.models as cmodels
+import extensions.models as cmodels
 from django.db.models import Count
 from datetime import datetime
 

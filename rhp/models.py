@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User
-import fstools.extensions.models as cmodels
+import extensions.models as cmodels
 from eval.models import Vlu
 
 class Rhp(cmodels.Timestamped_Model):

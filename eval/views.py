@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.http import Http404, HttpResponseRedirect, HttpResponse
-from eval.models import Vlu, Vorlesung,Frage, Fragenset, Option, Studiengang, Antwortbogen, Personal, Antwort
-from fstools.extensions.templates import TemplateHelper, LatexHelper
+from eval.models import *
+from extensions.templates import TemplateHelper, LatexHelper
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import transaction
@@ -15,6 +15,7 @@ t = TemplateHelper('eval')
 def home(request):
     return t.render('home.djhtml', {
             'vlus': Vlu.objects.all(),
+            'boegen': Fragebogen.objects.all()
             })
 
 @login_required

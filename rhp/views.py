@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
-from fstools.extensions.templates import TemplateHelper, LatexHelper
+from extensions.templates import TemplateHelper, LatexHelper
 from jinja2 import Environment,  PackageLoader
 from rhp.models import Rhp, Artikel
 from eval.models import Vlu, Frage, Fragenset, Option
