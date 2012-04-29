@@ -69,12 +69,12 @@ def export(request, rhp_id):
         rhp = Rhp.objects.get(pk=rhp_id)
     except Rhp.DoesNotExist:
         raise Http404
-
+    
     # create the jinja2 evironment for latex response
     #loader = FileSystemLoader('/path/to/templates')
     loader = PackageLoader('rhp', 'templates/latex')
     latex_helper = LatexHelper(loader)
-
+    
     context = {
         'rhp': rhp,
         'vlu': rhp.vlu,

@@ -20,6 +20,7 @@ LANGUAGE_CODE = 'de-de'
 SITE_ID = 1
 USE_I18N = False
 USE_L10N = True
+USE_TZ = False
 MEDIA_ROOT = ''
 MEDIA_URL = ''
 STATIC_ROOT = ''

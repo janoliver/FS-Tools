@@ -155,8 +155,8 @@ class FragensetFragebogen(models.Model):
     
 class Vlu(cmodels.Timestamped_Model):
     name         = models.CharField(max_length=255)
-    vlu_start    = models.DateField(default=datetime.now)
-    vlu_end      = models.DateField(default=datetime.now)
+    vlu_start    = models.DateTimeField(default=datetime.now)
+    vlu_end      = models.DateTimeField(default=datetime.now)
 
     antworten_cache = None
     
