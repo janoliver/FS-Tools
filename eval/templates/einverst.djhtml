@@ -1,0 +1,60 @@
+{% extends "base.djhtml" %}
+
+
+{% block umfrage %}
+class="aktiv"
+{% endblock umfrage %}
+
+
+{% block content %}
+
+<div>
+  <h2>Einverständnisse der Vorlesung: {{ vl.name }}</h2>
+
+  <div class="blockwrapper">
+  <table class="t">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Rolle</th>
+        <th>Diese Vorlesung</th>
+        <th>Dauerhaft</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for person in vl.get_personal() %}
+        <tr>
+        
+        <td>{{ person[1].name }}</td>
+        <td>{{ person[0] }}</td>
+        {% if person[2] or person[1].einverst %}
+        <td class="einverstanden ja">
+            {% if not person[1].einverst %}
+            <a href="/eval/einverst/toggle_single/{{ person[0] }}/{{ vl.id }}/{{ person[1].id }}">Entfernen</a>
+            {% endif %}
+        </td>
+        {% else %}
+        <td class="einverstanden nein">
+            <a href="/eval/einverst/toggle_single/{{ person[0] }}/{{ vl.id }}/{{ person[1].id }}">Einverstanden</a>
+        </td>
+        {% endif %}
+
+        {% if person[1].einverst %}
+        <td class="einverstanden ja">
+            <a href="/eval/einverst/toggle_forever/{{ vl.id }}/{{ person[1].id }}">Entfernen</a>
+        </td>
+        {% else %}
+        <td class="einverstanden nein">
+            <a href="/eval/einverst/toggle_forever/{{ vl.id }}/{{ person[1].id }}">Einverstanden</a>
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <br style="clear:both"/>
+
+</div>
+
+{% endblock content %}

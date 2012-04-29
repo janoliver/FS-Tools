@@ -32,9 +32,8 @@ class="aktiv"
             <thead>
               <tr>
                 <th>Vorlesung</th>
-                <th>Dozent</th>
                 <th>Fragebogen</th>
-                <th>Boegen eingetippt</th>
+                <th>Bögen</th>
                 <th></th>
               </tr>
             </thead>
@@ -43,10 +42,10 @@ class="aktiv"
               
               <tr>
                 <td>{{ vl.name }}</td>
-                <td>{{ vl.dozenten.all()|join(", ") }}</td>
                 <td>{{ vl.fragebogen.name }}</td>
                 <td>{{ vl.antwortboegen.all()|length }}</td>
                 <td class="buttons">
+                  <a href="/eval/einverst/{{ vl.id }}/" class="button">Einverst.erkl.</a>                    
                   <a href="/eval/kommentare/{{ vl.id }}/" class="button">Kommentare</a>
                   <a href="/eval/vorlesung/{{ vl.id }}/" class="button">Antworten</a>
                 </td>

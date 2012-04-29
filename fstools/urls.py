@@ -7,13 +7,20 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
     url(r'^$', 'default.views.start'),
+    
     url(r'^wik$', 'default.views.wiki'),
     url(r'^kalender$', 'default.views.kalender'),
     url(r'^eval$', 'eval.views.home'),
     url(r'^eval/vorlesung/(?P<vl_id>\d+)', 'eval.views.vl'),
+    url(r'^eval/einverst/(?P<vl_id>\d+)', 'eval.views.einverst'),
     url(r'^eval/kommentare/(?P<vl_id>\d+)', 'eval.views.comments'),
     url(r'^eval/editbogen/(?P<vl_id>\d+)/(?P<bogen_id>\d+)',
         'eval.views.editbogen'),
+    url(r'^eval/einverst/toggle_single/(?P<typ>\w+)/(?P<vl_id>\d+)/(?P<person_id>\d+)',
+        'eval.views.einverst_single'),
+    url(r'^eval/einverst/toggle_forever/(?P<vl_id>\d+)/(?P<person_id>\d+)',
+        'eval.views.einverst_forever'),
+    
     url(r'^eval/editbogen/(?P<vl_id>\d+)', 'eval.views.editbogen'),
     url(r'^eval/export/(?P<vlu_id>\d+)', 'eval.views.export_einverst'),
     url(r'^rhp$', 'rhp.views.list'),

@@ -258,23 +258,31 @@ td.choices {
     font-weight:bold;
 }
 
-td.terminchoice a {
+td.terminchoice a,
+td.einverstanden a{
     text-decoration:none;
 }
 
 .t tbody tr td.terminchoice.yes,
-.t tbody tr td.choice1 {
+.t tbody tr td.choice1,
+.t tbody tr td.einverstanden.ja{
     background:#D9FAD7;
 }
 
 .t tbody tr td.terminchoice.no,
-.t tbody tr td.choice-1 {
+.t tbody tr td.choice-1,
+.t tbody tr td.einverstanden.nein{
     background: #FFCCCA;
 }
 
 .t tbody tr td.terminchoice.vllt,
 .t tbody tr td.choice0 {
     background:#FFEDA1;
+}
+
+.t tbody tr td ul.personal-list {
+    margin-left:25px;
+    list-style:disc;
 }
 
 /*  ---- eintippen --- */
@@ -398,7 +406,8 @@ td.terminchoice a {
 
 /* --- the not so ... fancy buttons -- */
 a.button,
-td.terminchoice a {
+td.terminchoice a,
+td.einverstanden a{
     text-decoration:none;
     color:#4183C4;
     font-family:Arial;
@@ -408,7 +417,8 @@ td.terminchoice a {
 }
 
 a.button:hover,
-td.terminchoice a:hover {
+td.terminchoice a:hover,
+td.einverstanden a:hover{
     text-decoration:underline;
 }
 

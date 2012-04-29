@@ -15,6 +15,7 @@ class Personal(cmodels.Timestamped_Model):
                                     on_delete=models.SET_NULL)
     titel = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255)
+    einverst = models.BooleanField(default=False)
 
     class Meta:
 
@@ -57,6 +58,15 @@ class Vorlesung(cmodels.Timestamped_Model):
                     ).filter(antwortbogen__vorlesung=self)
         return self.antworten_cache
 
+    def get_personal(self):
+        p = []
+        for dozent in self.dozenten.all():
+            p.append(('Dozent', dozent, dozent.vorlesungdozenten_set.get(vorlesung=self.id).einverstanden))
+        for tutor in self.tutoren.all():
+            p.append(('Tutor', tutor,  tutor.vorlesungtutoren_set.get(vorlesung=self.id).einverstanden))
+        
+        return p
+    
     class Meta:
 
         verbose_name_plural = 'Vorlesungen'

@@ -3,6 +3,7 @@
 
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from eval.models import *
+from django.shortcuts import redirect
 from extensions.templates import TemplateHelper, LatexHelper
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -19,6 +20,52 @@ t = TemplateHelper('eval')
 def home(request):
     return t.render('home.djhtml', {'vlus': Vlu.objects.all(), 'boegen'
                     : Fragebogen.objects.all()})
+
+@login_required
+def einverst(request, vl_id):
+    try:
+        vl = Vorlesung.objects.get(pk=vl_id)
+    except Vorlesung.DoesNotExist:
+        raise Http404
+
+    return t.render('einverst.djhtml', {'vl': vl})
+
+@login_required
+def einverst_single(request, typ, vl_id, person_id):
+    try:
+        vl = Vorlesung.objects.get(pk=vl_id)
+    except Vorlesung.DoesNotExist:
+        raise Http404
+
+    try:
+        person = Personal.objects.get(pk=person_id)
+    except Vorlesung.DoesNotExist:
+        raise Http404
+
+    if typ == 'Dozent':
+        conn = VorlesungDozenten.objects.get(vorlesung=vl, dozent=person)
+    if typ == 'Tutor':
+        conn = VorlesungTutoren.objects.get(vorlesung=vl, tutor=person)
+    conn.einverstanden = not conn.einverstanden
+    conn.save()
+    return redirect('/eval/einverst/'+str(vl.id))
+
+
+@login_required
+def einverst_forever(request, vl_id, person_id):
+    try:
+        vl = Vorlesung.objects.get(pk=vl_id)
+    except Vorlesung.DoesNotExist:
+        raise Http404
+
+    try:
+        person = Personal.objects.get(pk=person_id)
+    except Vorlesung.DoesNotExist:
+        raise Http404
+
+    person.einverst = not person.einverst
+    person.save()
+    return redirect('/eval/einverst/'+str(vl.id))
 
 
 @login_required
