@@ -4,19 +4,22 @@
 from django.http import Http404
 from django.contrib import messages
 from extensions.templates import TemplateHelper
-from jinja2 import Environment, PackageLoader
 from umfrage.models import Umfrage, Option, Vote
 from django.contrib.auth.decorators import login_required
 
 t = TemplateHelper('umfrage')
 
-
+"""
+Die Liste der Umfragen.
+"""
 @login_required
 def list(request):
     return t.render('list.djhtml', {'umfragen': Umfrage.objects.all()},
                     req=request)
 
-
+"""
+Hier wird eine Umfrage angezeigt bzw. ein neues Voting eingetragen.
+"""
 @login_required
 def umfrage(request, umfrage_id):
     try:
@@ -24,44 +27,55 @@ def umfrage(request, umfrage_id):
     except Umfrage.DoesNotExist:
         raise Http404
 
+    # Eintragen einer neuen Abstimmung
     if request.POST and request.is_ajax():
         reqdata = request.POST
 
         option_cache = []
-        
+
+        # hier wird über die Auswahl des Nutzers iteriert.
+        # key hat die id der Option, value den Code der Antwort.
         for (key, value) in reqdata.iteritems():
             try:
                 option_id = int(key)
-                
                 option = Option.objects.get(pk=option_id)
 
+                # Überprüfen, ob bereits eine Antwort auf diese Frage
+                # mit dieser Option in der Datenbank existiert.
                 if len(Vote.objects.filter(user=request.user,
                        option=option)):
                     response = {'success': False}
-                    message.error(request, 'Bereits gevotet für Option'
-                                  + option.titel)
+                    messages.error(request, 'Bereits gevotet für Option'
+                                    + option.titel)
                     break
 
-                if (value == -1 and not u.nein) or (value == 0 and not u.vielleicht):
+                # Überprüfe, ob die Antwort erlaubt ist. 
+                if value == -1 and not u.nein or value == 0 \
+                    and not u.vielleicht:
                     response = {'success': False}
-                    message.error(request, 'Falsche Optionen ausgewählt')
+                    messages.error(request,
+                                   'Falsche Optionen ausgewählt')
                     break
-                
+
+                # ansonsten success auf true setzen
                 response = {'success': True}
-                
                 option_cache.append((option, value))
+                
             except ValueError:
 
                 pass
 
-        # check the number of votes and so on.
+        # überprüfe, ob die Anzahl der Auswahl den Vorgaben entspricht
         if len(option_cache) != u.wahlanzahl and u.wahlanzahl != 0:
             response = {'success': False}
-            message.error(request, 'Du hast zu viele oder zu wenige Optionen gewählt')
-            
+            messages.error(request,
+                           'Du hast zu viele oder zu wenige Optionen gewählt'
+                           )
+
+        # Wenn alles in Ordnung war, dann die Votes in die DB eintragen.
         if response['success']:
             for o in option_cache:
-            
+
                 vote = Vote()
                 vote.option = o[0]
                 vote.user = request.user
@@ -69,10 +83,11 @@ def umfrage(request, umfrage_id):
                 vote.choice = o[1]
                 vote.save()
 
-        if response['success']:
             messages.success(request, 'Erfolgreich eingetragen')
 
+        # Ergebnis zurückgeben
         return t.ajax(response)
+    
     else:
         if u.typ == 0:
             choices = {-1: '', 0: '', 1: ''}

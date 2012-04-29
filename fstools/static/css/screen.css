@@ -10,6 +10,18 @@ body {
     background-repeat: no-repeat;
 }
 
+/* general stuff */
+
+strong {
+    font-weight:bold;
+}
+
+em {
+    
+}
+
+/* structure */
+
 .coat {
     max-width:1000px;
     margin:0 auto;
@@ -157,6 +169,13 @@ body {
     font-size:17px;
     margin-bottom:3px;
     font-family:Helvetica, arial;
+}
+
+#content .description {
+    padding:5px;
+    font-size:12px;
+    font-family:Arial;
+
 }
 
 .blockwrapper {

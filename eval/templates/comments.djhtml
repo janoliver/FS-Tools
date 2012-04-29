@@ -4,7 +4,6 @@
 class="aktiv"
 {% endblock vlu %}
 
-
 {% block content %}
 
 <h2>VLU: {{ vl.vlu }}, Vorlesung: {{ vl }}, Kommentare bearbeiten</h2>

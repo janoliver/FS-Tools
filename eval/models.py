@@ -16,11 +16,9 @@ class Personal(cmodels.Timestamped_Model):
     titel = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255)
 
-
     class Meta:
 
         verbose_name_plural = 'Personal'
-
 
     def __unicode__(self):
         return self.name
@@ -33,9 +31,10 @@ class Vorlesung(cmodels.Timestamped_Model):
     fragebogen = models.ForeignKey('Fragebogen',
                                    related_name='vorlesungen')
     dozenten = models.ManyToManyField('Personal',
-            related_name='vorlesungen')
+            related_name='vorlesungen', through='VorlesungDozenten')
     tutoren = models.ManyToManyField('Personal',
-            related_name='vorlesungen_tutor', blank=True, null=True)
+            through='VorlesungTutoren', related_name='vorlesungen_tutor',
+                                     blank=True, null=True) 
 
     antworten_cache = None
 
@@ -58,14 +57,26 @@ class Vorlesung(cmodels.Timestamped_Model):
                     ).filter(antwortbogen__vorlesung=self)
         return self.antworten_cache
 
-
     class Meta:
 
         verbose_name_plural = 'Vorlesungen'
 
-
     def __unicode__(self):
         return self.name
+
+
+class VorlesungTutoren(models.Model):
+
+    vorlesung = models.ForeignKey('Vorlesung')
+    tutor = models.ForeignKey('Personal')
+    einverstanden = models.BooleanField(default=False)
+
+
+class VorlesungDozenten(models.Model):
+
+    vorlesung = models.ForeignKey('Vorlesung')
+    dozent = models.ForeignKey('Personal')
+    einverstanden = models.BooleanField(default=False)
 
 
 class Antwortbogen(cmodels.Timestamped_Model):
@@ -94,11 +105,9 @@ class Antwortbogen(cmodels.Timestamped_Model):
 
             return ''
 
-
     class Meta:
 
         verbose_name_plural = "Antwortbögen"
-
 
     def __unicode__(self):
         return 'Bogen: ' + self.vorlesung.name
@@ -136,7 +145,6 @@ class Frage(cmodels.Timestamped_Model):
     def mean(self, rel):
 
         # mean of the answers of this question, in relation to rel
-
         antworten = [x for x in rel.antworten() if x.frage_id
                      == self.id]
 
@@ -149,11 +157,9 @@ class Frage(cmodels.Timestamped_Model):
 
         return summe / len(antworten)
 
-
     class Meta:
 
         verbose_name_plural = 'Fragen'
-
 
     def __unicode__(self):
         return self.text

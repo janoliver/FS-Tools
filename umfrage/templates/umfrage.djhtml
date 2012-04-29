@@ -10,6 +10,10 @@ class="aktiv"
 
 <div>
   <h2>Umfrage: {{ umfrage.name }}</h2>
+  <div class="description">
+  Bei dieser Umfrage <strong>{% if umfrage.mindest_wahl %}musst{% else %}kannst{% endif %}</strong>
+  du <strong>{% if umfrage.wahlanzahl == 0 %}alle{% else %}{{ umfrage.wahlanzahl }}{% endif %}</strong> Optionen wählen.
+  </div>
   <div class="blockwrapper">
     <input type="hidden" name="wahlanzahl" value="{{ umfrage.wahlanzahl }}" />
     <input type="hidden" name="must_check_number" value="{{ umfrage.mindest_wahl }}" />
