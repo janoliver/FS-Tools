@@ -11,6 +11,8 @@ class="aktiv"
 <div>
   <h2>Umfrage: {{ umfrage.name }}</h2>
   <div class="blockwrapper">
+    <input type="hidden" name="wahlanzahl" value="{{ umfrage.wahlanzahl }}" />
+    <input type="hidden" name="must_check_number" value="{{ umfrage.mindest_wahl }}" />
   <table class="t">
     <thead>
       <tr>
@@ -21,6 +23,7 @@ class="aktiv"
       </tr>
     </thead>
     <tbody>
+      {% if not umfrage.anonym and (not umfrage.unbeeinflusst or currentuser in umfrage.getUser()) %}
       {% for user, votes in umfrage.getUser().iteritems() %}
       <tr>
         <td class="titletd">{{ user.username }}</td>
@@ -29,35 +32,55 @@ class="aktiv"
         <td class="choices choice{{ votes[o].choice }}">
         {{ choices[votes[o].choice] }}
         {%- else -%}
-        <td>-
+        <td>
         {%- endif -%}
         </td>
         {% endfor %}
       </tr>
       {% endfor %}
+      {% endif %}
+      {% if not umfrage.unbeeinflusst or currentuser in umfrage.getUser() %}
+      <tr>
+        <td class="titletd">Ergebnis</td>
+        {% for o in optionen %}
+        <td>
+          Ja: <strong>{{ o.votes.filter(choice__exact = 1).all()|count }}</strong> <br />
+          {% if umfrage.nein %}
+          Nein: <strong>{{ o.votes.filter(choice__exact = 1).all()|count }}</strong> <br />
+          {% endif %}
+          {% if umfrage.vielleicht %}
+          Vielleicht: {{ o.votes.filter(choice__exact = 1).all()|count }} <br />
+          {% endif %}
+        </td>
+        {% endfor %}
+      </tr>  
+      {% endif %}
       {% if not currentuser in umfrage.getUser() %}
       <tr>
         <td class="titletd">{{ currentuser.username }}</td>
         {% for o in optionen %}
-          {% if umfrage.get_typ_display() == 'Termin' %}
-          <td class="terminchoice" id="{{ o.id }}">
-            <a href="#ja">Ja</a> <br />
-            <a href="#nein">Nein</a> <br />
-            <a href="#vielleicht">Vielleicht</a>
-          </td>
-          {% else %}
-          <td>
-
-          </td>
+        <td class="terminchoice" id="{{ o.id }}">
+          <a href="#ja">Ja</a> <br />
+          {% if umfrage.nein %}
+          <a href="#nein">Nein</a> <br />
           {% endif %}
-        {% endfor %}
-      </tr>
-      <tr class="save">
-        <td colspan="{{ optionen|count|int + 1 }}">
-          {% csrf_token %}
-          <input type="submit" value="Speichern" class="savebutton" />
-        </td>
-      </tr>
+          {% if umfrage.vielleicht %}
+          <a href="#vielleicht">
+            {%- if umfrage.get_typ_display() == 'Termin' -%}
+            Vielleicht
+            {%- else -%}
+            Enthalten
+            {%- endif -%}
+          </a>
+          {% endif %}
+          {% endfor %}
+        </tr>
+        <tr class="save">
+          <td colspan="{{ optionen|count|int + 1 }}">
+            {% csrf_token %}
+            <input type="submit" value="Speichern" class="savebutton" />
+          </td>
+        </tr>
       
       {% endif %}
     </tbody>

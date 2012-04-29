@@ -1,19 +1,25 @@
+#!/usr/bin/python2
+# -*- coding: utf-8 -*-
 from django.http import Http404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from extensions.templates import TemplateHelper, LatexHelper
-from jinja2 import Environment,  PackageLoader
+from jinja2 import Environment, PackageLoader
 from rhp.models import Rhp, Artikel
 from eval.models import Vlu, Frage, Fragenset, Option
 from django.contrib.auth.decorators import login_required
-import zipfile, tempfile
+import zipfile
+import tempfile
 from cStringIO import StringIO
 
 t = TemplateHelper('rhp')
 
+
 @login_required
 def list(request):
-    return t.render('list.djhtml', {'rhps': Rhp.objects.all(),}, req=request)
+    return t.render('list.djhtml', {'rhps': Rhp.objects.all()},
+                    req=request)
+
 
 @login_required
 def artikel(request, rhp_id, artikel_id=None):
@@ -23,6 +29,7 @@ def artikel(request, rhp_id, artikel_id=None):
         raise Http404
 
     # check if a sheet is to be edited
+
     print artikel_id
     if artikel_id:
         try:
@@ -31,20 +38,19 @@ def artikel(request, rhp_id, artikel_id=None):
             raise Http404
     else:
         artikel = Artikel()
-    
+
     if request.method == 'POST':
         reqdata = request.POST
         artikel.rhp = rhp
         artikel.autor = reqdata['autor']
         artikel.titel = reqdata['titel']
-        artikel.text  = reqdata['text']
+        artikel.text = reqdata['text']
         artikel.save()
         messages.success(request, 'Erfolgreich gespeichert')
-    
-    return t.render('artikel.djhtml', {
-            'artikel': artikel,
-            'rhp': rhp
-            }, req=request)
+
+    return t.render('artikel.djhtml', {'artikel': artikel, 'rhp': rhp},
+                    req=request)
+
 
 @login_required
 def move(request, direction, artikel_id):
@@ -52,16 +58,17 @@ def move(request, direction, artikel_id):
         artikel = Artikel.objects.get(pk=artikel_id)
     except Artikel.DoesNotExist:
         raise Http404
-    
+
     if artikel.rank > 0 and direction == 'up':
         artikel.rank -= 1
-        
+
     if direction == 'down':
         artikel.rank += 1
-        
+
     artikel.save()
     messages.success(request, 'Erfolgreich bewegt')
-    return HttpResponseRedirect("/rhp")
+    return HttpResponseRedirect('/rhp')
+
 
 @login_required
 def export(request, rhp_id):
@@ -69,12 +76,13 @@ def export(request, rhp_id):
         rhp = Rhp.objects.get(pk=rhp_id)
     except Rhp.DoesNotExist:
         raise Http404
-    
+
     # create the jinja2 evironment for latex response
-    #loader = FileSystemLoader('/path/to/templates')
+    # loader = FileSystemLoader('/path/to/templates')
+
     loader = PackageLoader('rhp', 'templates/latex')
     latex_helper = LatexHelper(loader)
-    
+
     context = {
         'rhp': rhp,
         'vlu': rhp.vlu,
@@ -82,35 +90,37 @@ def export(request, rhp_id):
         'fragensets': Fragenset.objects.select_related(),
         'optionen': Option.objects.select_related(),
         'vorlesungen': rhp.vlu.vorlesungen.select_related(),
-        'artikel': rhp.artikel.all()
+        'artikel': rhp.artikel.all(),
         }
 
-    files    = []
+    files = []
     tmpfiles = []
     for tpl in latex_helper.env.list_templates():
         if tpl and (tpl.find('.tex') > 0 or tpl.find('.sty') > 0):
             template = latex_helper.env.get_template(tpl)
             f = tempfile.NamedTemporaryFile()
-            f.write(template.render(context).encode("utf8"))
+            f.write(template.render(context).encode('utf8'))
             f.flush()
             tmpfiles.append((tpl, f))
         else:
-            files.append((tpl, loader.get_source(latex_helper.env, tpl)[1]))
-            
+            files.append((tpl, loader.get_source(latex_helper.env,
+                         tpl)[1]))
+
     # return as a zip file. from here: https://code.djangoproject.com/wiki/CookBookDynamicZip
+
     response = HttpResponse(mimetype='application/zip')
-    response['Content-Disposition'] = 'filename='+ rhp.name +'.zip'
-    
+    response['Content-Disposition'] = 'filename=' + rhp.name + '.zip'
+
     buffer = StringIO()
-    zip    = zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED)
-    
-    for name, f in tmpfiles:
-        zip.write(f.name, rhp.name+'/'+name)
+    zip = zipfile.ZipFile(buffer, 'w', zipfile.ZIP_DEFLATED)
+
+    for (name, f) in tmpfiles:
+        zip.write(f.name, rhp.name + '/' + name)
         f.close()
-        
-    for name, f in files:
-        zip.write(f, rhp.name+'/'+name)
-        
+
+    for (name, f) in files:
+        zip.write(f, rhp.name + '/' + name)
+
     zip.close()
     buffer.flush()
 

@@ -67,12 +67,21 @@ $(document).ready(function() {
     $(".terminchoice a").click(function(e) {
         e.preventDefault();
 
-        // add classes to the td
         td = $(this).parent();
-        td.addClass('chosen');
-        for( var choice in choiceArray)
-            td.removeClass(choiceArray[choice]); 
-        td.addClass(choiceArray[$(this).attr('href')]);
+        clicked_choice = choiceArray[$(this).attr('href')];
+        
+        // remove the choice if the same was selected
+        if(td.hasClass('chosen') && td.hasClass(clicked_choice)) {
+            td.removeClass('chosen');
+            td.removeClass(clicked_choice);
+        } else {
+            
+            // add classes to the td
+            td.addClass('chosen');
+            for( var choice in choiceArray)
+                td.removeClass(choiceArray[choice]); 
+            td.addClass(clicked_choice);
+        }
     });
 
     // click on save answer
@@ -82,11 +91,15 @@ $(document).ready(function() {
         // prepare data array
         data = {'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').attr('value')}
 
+        // find options
+        var must_check = $("input[name='must_check_number']").attr('value') == 'True';
+        var wahlanzahl = parseInt($("input[name='wahlanzahl']").attr('value'));
+        var counter = 0;
         // create array of chosen answers
         $("td.terminchoice").each(function() {
             
             // check if every option has a choice
-            if(!$(this).hasClass('chosen')) {
+            if(!$(this).hasClass('chosen') && must_check && wahlanzahl == 0) {
                 $.achtung({
 	            message: "Bitte zu allen Optionen etwas auswählen!", 
 	            className: "error",
@@ -94,16 +107,39 @@ $(document).ready(function() {
 	            disableClose: true});
                 return false;
             }
-            
-            // answer codes: yes: 1, no: -1, perhaps: 0
-            if($(this).hasClass('yes'))
-                data[$(this).attr('id')] = 1;
-            if($(this).hasClass('no'))
-                data[$(this).attr('id')] = -1;
-            if($(this).hasClass('vllt'))
-                data[$(this).attr('id')] = 0;
-            
+
+            if($(this).hasClass('chosen')) {
+                // answer codes: yes: 1, no: -1, perhaps: 0
+                if($(this).hasClass('yes'))
+                    data[$(this).attr('id')] = 1;
+                if($(this).hasClass('no'))
+                    data[$(this).attr('id')] = -1;
+                if($(this).hasClass('vllt'))
+                    data[$(this).attr('id')] = 0;
+
+                counter++;
+            }
         });
+        
+        // check if every option has a choice
+        if(must_check && wahlanzahl > counter) {
+            $.achtung({
+	        message: "Bitte zu "+ wahlanzahl +" Optionen etwas auswählen!", 
+	        className: "error",
+	        timeout: 5,
+	        disableClose: true});
+            return false;
+        }
+
+        // check if every option has a choice
+        if(wahlanzahl != 0 && counter > wahlanzahl) {
+            $.achtung({
+	        message: "Du darfst nur  "+ wahlanzahl +" mal abstimmen!", 
+	        className: "error",
+	        timeout: 5,
+	        disableClose: true});
+            return false;
+        }
         
         // send vote to server
         $.ajax({

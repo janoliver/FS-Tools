@@ -1,8 +1,11 @@
-#!/usr/bin/env python2
-import os, sys
+#!/usr/bin/python2
+# -*- coding: utf-8 -*-
 
-if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "fstools.settings")
+import os
+import sys
+
+if __name__ == '__main__':
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fstools.settings')
 
     from django.core.management import execute_from_command_line
 

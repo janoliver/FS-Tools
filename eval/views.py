@@ -1,22 +1,25 @@
+#!/usr/bin/python2
 # -*- coding: utf-8 -*-
+
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from eval.models import *
 from extensions.templates import TemplateHelper, LatexHelper
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import transaction
-from jinja2 import Environment,  PackageLoader
-import zipfile, tempfile
+from jinja2 import Environment, PackageLoader
+import zipfile
+import tempfile
 from cStringIO import StringIO
 
 t = TemplateHelper('eval')
 
+
 @login_required
 def home(request):
-    return t.render('home.djhtml', {
-            'vlus': Vlu.objects.all(),
-            'boegen': Fragebogen.objects.all()
-            })
+    return t.render('home.djhtml', {'vlus': Vlu.objects.all(), 'boegen'
+                    : Fragebogen.objects.all()})
+
 
 @login_required
 def vl(request, vl_id):
@@ -25,9 +28,8 @@ def vl(request, vl_id):
     except Vorlesung.DoesNotExist:
         raise Http404
 
-    return t.render('vorlesung.djhtml', {
-            'vl': vl
-            })
+    return t.render('vorlesung.djhtml', {'vl': vl})
+
 
 @login_required
 def editbogen(request, vl_id, bogen_id=None):
@@ -37,6 +39,7 @@ def editbogen(request, vl_id, bogen_id=None):
         raise Http404
 
     # check if a sheet is to be edited
+
     if bogen_id:
         try:
             ab = Antwortbogen.objects.get(pk=bogen_id)
@@ -46,48 +49,58 @@ def editbogen(request, vl_id, bogen_id=None):
         ab = Antwortbogen()
 
     fragensets = vl.fragebogen.fragensets.all()
-    
+
     if request.method == 'POST':
+
         # insert bogen into database
+
         reqdata = request.POST
 
         if reqdata['tutor'] != '':
             ab.tutor = Personal.objects.get(pk=reqdata['tutor'])
 
         if reqdata['studiengang'] != '':
-            ab.studiengang = Studiengang.objects.get(pk=reqdata['studiengang'])
+            ab.studiengang = \
+                Studiengang.objects.get(pk=reqdata['studiengang'])
 
         if reqdata['semester'] != '':
             ab.semester = reqdata['semester']
 
         ab.vorlesung = vl
         ab.save()
-        #transaction.commit()
-        
+
+        # transaction.commit()
+
         with transaction.commit_on_success():
             for fragenset in fragensets:
                 for frage in fragenset.fragen.all():
-                    
+
                     try:
                         antwort = ab.antworten.get(frage=frage)
 
-                        if 'frage' + str(frage.id) not in reqdata or reqdata['frage' + str(frage.id)] == '' or reqdata['frage' + str(frage.id)] == 0:
+                        if 'frage' + str(frage.id) not in reqdata \
+                            or reqdata['frage' + str(frage.id)] == '' \
+                            or reqdata['frage' + str(frage.id)] == 0:
                             antwort.delete()
                             continue
-                    
                     except Antwort.DoesNotExist:
-                        if 'frage' + str(frage.id) not in reqdata or reqdata['frage' + str(frage.id)] == '' or reqdata['frage' + str(frage.id)] == 0:
+
+                        if 'frage' + str(frage.id) not in reqdata \
+                            or reqdata['frage' + str(frage.id)] == '' \
+                            or reqdata['frage' + str(frage.id)] == 0:
                             continue
-                        
+
                         antwort = Antwort()
-                    
+
                         antwort.antwortbogen = ab
                         antwort.frage = frage
-                    
+
                     if frage.fragentyp.texttype:
                         antwort.text = reqdata['frage' + str(frage.id)]
                     else:
-                        option = frage.fragentyp.optionen.get(pk=reqdata['frage' + str(frage.id)])
+                        option = \
+                            frage.fragentyp.optionen.get(pk=reqdata['frage'
+                                 + str(frage.id)])
                         antwort.option = option
 
                     antwort.save()
@@ -96,13 +109,14 @@ def editbogen(request, vl_id, bogen_id=None):
 
         if not bogen_id:
             ab = Antwortbogen()
-            
+
     return t.render('editbogen.djhtml', {
-            'fragensets': fragensets,
-            'vl': vl,
-            'ab': ab,
-            'studiengaenge': Studiengang.objects.all()
-            }, req=request)
+        'fragensets': fragensets,
+        'vl': vl,
+        'ab': ab,
+        'studiengaenge': Studiengang.objects.all(),
+        }, req=request)
+
 
 @login_required
 def comments(request, vl_id):
@@ -112,29 +126,32 @@ def comments(request, vl_id):
         raise Http404
 
     if request.method == 'POST':
+
         # edit comments
+
         reqdata = request.POST
-        
+
         with transaction.commit_on_success():
-            for key, val in reqdata.iteritems():
+            for (key, val) in reqdata.iteritems():
                 if key.find('antwort') == 0:
                     a = Antwort.objects.get(pk=int(key[7:]))
-                    
+
                     # delete the answer if text is empty.
-                    if val == "":
+
+                    if val == '':
                         a.delete()
                     else:
                         a.text = val
                         a.save()
 
-        messages.success(request, "Kommentare gespeichert")
-    
-    textcomments = Antwort.objects.filter(antwortbogen__vorlesung=vl, frage__fragentyp__texttype=True)
-    
-    return t.render('comments.djhtml', {
-            'vl': vl,
-            'antworten': textcomments
-            }, req=request)
+        messages.success(request, 'Kommentare gespeichert')
+
+    textcomments = Antwort.objects.filter(antwortbogen__vorlesung=vl,
+            frage__fragentyp__texttype=True)
+
+    return t.render('comments.djhtml', {'vl': vl, 'antworten'
+                    : textcomments}, req=request)
+
 
 @login_required
 def export_einverst(request, vlu_id):
@@ -144,7 +161,8 @@ def export_einverst(request, vlu_id):
         raise Http404
 
     # create the jinja2 evironment for latex response
-    #loader = FileSystemLoader('/path/to/templates')
+    # loader = FileSystemLoader('/path/to/templates')
+
     loader = PackageLoader('eval', 'templates/latex')
     latex_helper = LatexHelper(loader)
 
@@ -153,25 +171,26 @@ def export_einverst(request, vlu_id):
         'fragen': Frage.objects.select_related(),
         'fragensets': Fragenset.objects.select_related(),
         'optionen': Option.objects.select_related(),
-        'vorlesungen': vlu.vorlesungen.select_related()
+        'vorlesungen': vlu.vorlesungen.select_related(),
         }
-   
+
     # return as a zip file. from here: https://code.djangoproject.com/wiki/CookBookDynamicZip
+
     response = HttpResponse(mimetype='application/zip')
-    response['Content-Disposition'] = 'filename='+ vlu.name +'.zip'
-    
+    response['Content-Disposition'] = 'filename=' + vlu.name + '.zip'
+
     buffer = StringIO()
-    zip    = zipfile.ZipFile(buffer, "w", zipfile.ZIP_DEFLATED)
-    
+    zip = zipfile.ZipFile(buffer, 'w', zipfile.ZIP_DEFLATED)
+
     for tpl in latex_helper.env.list_templates():
         if tpl and (tpl.find('.tex') > 0 or tpl.find('.sty') > 0):
             template = latex_helper.env.get_template(tpl)
             f = tempfile.NamedTemporaryFile()
-            f.write( template.render(context).encode("utf8"))
+            f.write(template.render(context).encode('utf8'))
             f.flush()
-            zip.write(f.name, vlu.name+'/'+tpl)
+            zip.write(f.name, vlu.name + '/' + tpl)
             f.close()
-            
+
     zip.close()
     buffer.flush()
 

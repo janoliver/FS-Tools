@@ -1,3 +1,5 @@
+#!/usr/bin/python2
+# -*- coding: utf-8 -*-
 from rhp.models import *
 from eval.models import Vlu
 from django.contrib import admin

@@ -1,4 +1,6 @@
-# coding:utf-8
+#!/usr/bin/python2
+# -*- coding: utf-8 -*-
+
 '''
 Created on 2009-12-30
 
@@ -12,6 +14,7 @@ JINJA_EXTS=('jinja2.ext.i18n','youproject.app.extensions.csrf_token',)
 use in jinja2 template just like django template:
 <form ...>{% csrf_token %}...</form>
 '''
+
 from jinja2 import nodes
 from jinja2.ext import Extension
 from django.utils.safestring import mark_safe
@@ -19,7 +22,9 @@ import traceback
 
 
 class CsrfExtension(Extension):
+
     # a set of names that trigger the extension.
+
     tags = set(['csrf_token'])
 
     def __init__(self, environment):
@@ -28,9 +33,11 @@ class CsrfExtension(Extension):
     def parse(self, parser):
         try:
             token = parser.stream.next()
-            return nodes.Output([self.call_method('_render', [nodes.Name('csrf_token','load')])]).set_lineno(token.lineno)
-
+            return nodes.Output([self.call_method('_render',
+                                [nodes.Name('csrf_token', 'load'
+                                )])]).set_lineno(token.lineno)
         except:
+
             traceback.print_exc()
 
     def _render(self, csrf_token):
@@ -39,16 +46,21 @@ class CsrfExtension(Extension):
         print csrf_token
         if csrf_token:
             if csrf_token == 'NOTPROVIDED':
-                return mark_safe(u"")
+                return mark_safe(u'')
             else:
-                return mark_safe(u"<div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='%s' /></div>" % (csrf_token))
+                return mark_safe(u"<div style='display:none'><input type='hidden' name='csrfmiddlewaretoken' value='%s' /></div>"
+                                  % csrf_token)
         else:
+
             # It's very probable that the token is missing because of
             # misconfiguration, so we raise a warning
+
             from django.conf import settings
             if settings.DEBUG:
                 import warnings
-                warnings.warn("A {% csrf_token %} was used in a template, but the context did not provide the value.  This is usually caused by not using RequestContext.")
+                warnings.warn('A {% csrf_token %} was used in a template, but the context did not provide the value.  This is usually caused by not using RequestContext.'
+                              )
             return u''
 
-csrf_token=CsrfExtension
+
+csrf_token = CsrfExtension
