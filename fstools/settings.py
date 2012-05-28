@@ -31,28 +31,34 @@ PAM_IS_SUPERUSER = True
 
 STATICFILES_DIRS = (root + '/static', )
 
-STATICFILES_FINDERS = \
-    ('django.contrib.staticfiles.finders.FileSystemFinder',
-     'django.contrib.staticfiles.finders.AppDirectoriesFinder')
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder'
+    )
 
 # Make this unique, and don't share it with anybody.
-
 SECRET_KEY = 'y1i8evr^^9xouthj0ku#e4*hl!83jp3bdacx(m-8v8zp3g0!v#'
 
 # List of callables that know how to import templates from various sources.
+JINJA_CONFIG = {
+    'line_statement_prefix': '#',
+    'line_comment_prefix'  : '##',
+    'extensions' : ['jinja2.ext.autoescape']}
 
-TEMPLATE_LOADERS = ('django.template.loaders.filesystem.Loader',
-                    'django.template.loaders.app_directories.Loader')
+JINGO_EXCLUDE_APPS = ('admin','default','auth',)
 
-JINJA_EXTS = ('extensions.jinja.csrf_token', )
+TEMPLATE_LOADERS = (
+    'jingo.Loader',
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader')
 
-MIDDLEWARE_CLASSES = ('django.middleware.common.CommonMiddleware',
-                      'django.contrib.sessions.middleware.SessionMiddleware'
-                      , 'django.middleware.csrf.CsrfViewMiddleware',
-                      'django.contrib.auth.middleware.AuthenticationMiddleware'
-                      ,
-                      'django.contrib.messages.middleware.MessageMiddleware'
-                      )
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware'
+    )
 
 ROOT_URLCONF = 'fstools.urls'
 
@@ -73,6 +79,7 @@ INSTALLED_APPS = (  # 'django_extensions',
     'protokoll',
     'umfrage',
     'default',
+    'ppp'
     )
 
 # A sample logging configuration. The only tangible logging

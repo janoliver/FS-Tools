@@ -3,19 +3,19 @@
 
 from django.http import Http404
 from django.contrib import messages
-from extensions.templates import TemplateHelper
+from django.http import HttpResponse
+from django.utils import simplejson
+from django.shortcuts import render_to_response
 from umfrage.models import Umfrage, Option, Vote
 from django.contrib.auth.decorators import login_required
-
-t = TemplateHelper('umfrage')
 
 """
 Die Liste der Umfragen.
 """
 @login_required
 def list(request):
-    return t.render('list.djhtml', {'umfragen': Umfrage.objects.all()},
-                    req=request)
+    return render_to_response('umfrage/list.djhtml',
+                              {'umfragen': Umfrage.objects.all()})
 
 """
 Hier wird eine Umfrage angezeigt bzw. ein neues Voting eingetragen.
@@ -86,17 +86,17 @@ def umfrage(request, umfrage_id):
             messages.success(request, 'Erfolgreich eingetragen')
 
         # Ergebnis zurückgeben
-        return t.ajax(response)
+        return HttpResponse(simplejson.dumps(response),'application/json')
     
     else:
         if u.typ == 0:
             choices = {-1: '', 0: '', 1: ''}
         else:
             choices = {-1: 'Nein', 0: 'Vielleicht', 1: 'Ja'}
-        return t.render('umfrage.djhtml', {
+        return render_to_response('umfrage/umfrage.djhtml', {
             'umfrage': u,
             'optionen': u.optionen.all(),
             'votes': u.votes.all(),
             'currentuser': request.user,
             'choices': choices,
-            }, req=request)
+            })

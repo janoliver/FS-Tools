@@ -1,26 +1,27 @@
 #!/usr/bin/python2
 # -*- coding: utf-8 -*-
 
-from django.http import Http404, HttpResponseRedirect, HttpResponse
+from django.http import Http404, HttpResponse
 from eval.models import *
 from django.shortcuts import redirect
-from extensions.templates import TemplateHelper, LatexHelper
+from extensions.templates import LatexHelper
+from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import transaction
-from jinja2 import Environment, PackageLoader
 import zipfile
 import tempfile
 from cStringIO import StringIO
 
-t = TemplateHelper('eval')
-
-
+# Die Startseite der Eval App (Vorlesungsumfrage)
 @login_required
 def home(request):
-    return t.render('home.djhtml', {'vlus': Vlu.objects.all(), 'boegen'
-                    : Fragebogen.objects.all()})
+    return render_to_response('eval/home.djhtml', {
+            'vlus': Vlu.objects.all(),
+            'boegen': Fragebogen.objects.all()})
 
+
+# Die Einverständniserklärungen-Seite
 @login_required
 def einverst(request, vl_id):
     try:
@@ -28,15 +29,21 @@ def einverst(request, vl_id):
     except Vorlesung.DoesNotExist:
         raise Http404
 
-    return t.render('einverst.djhtml', {'vl': vl})
+    return render_to_response('eval/einverst.djhtml', {'vl': vl})
 
+
+# Diese View setzt die Einverständniserklärung für eine VLU
+# auf AN bzw. AUS. Danach wird umgeleitet zur Übersichtsseite
+# der Einverständniserklärungen.
 @login_required
 def einverst_single(request, typ, vl_id, person_id):
+    # finde Vorlesung
     try:
         vl = Vorlesung.objects.get(pk=vl_id)
     except Vorlesung.DoesNotExist:
         raise Http404
 
+    # Finde Dozenten/Tutor
     try:
         person = Personal.objects.get(pk=person_id)
     except Vorlesung.DoesNotExist:
@@ -46,38 +53,51 @@ def einverst_single(request, typ, vl_id, person_id):
         conn = VorlesungDozenten.objects.get(vorlesung=vl, dozent=person)
     if typ == 'Tutor':
         conn = VorlesungTutoren.objects.get(vorlesung=vl, tutor=person)
+
+    # toggle Einverstanden
     conn.einverstanden = not conn.einverstanden
     conn.save()
-    return redirect('/eval/einverst/'+str(vl.id))
+    
+    return redirect('/eval/einverst/' + str(vl.id))
 
 
+# Diese View setzt die Einverständniserklärung für ALLE VLU
+# auf AN bzw. AUS. Danach wird umgeleitet zur Übersichtsseite
+# der Einverständniserklärungen.
 @login_required
 def einverst_forever(request, vl_id, person_id):
+    # Finde Vorlesung
     try:
         vl = Vorlesung.objects.get(pk=vl_id)
     except Vorlesung.DoesNotExist:
         raise Http404
 
+    # Finde Dozenten/Tutor
     try:
         person = Personal.objects.get(pk=person_id)
     except Vorlesung.DoesNotExist:
         raise Http404
 
+    # Toggle einverstanden
     person.einverst = not person.einverst
     person.save()
-    return redirect('/eval/einverst/'+str(vl.id))
+    
+    return redirect('/eval/einverst/' + str(vl.id))
 
 
+# Zeige Details einer Vorlesung an.
 @login_required
 def vl(request, vl_id):
+    # Vorlesung finden.
     try:
         vl = Vorlesung.objects.get(pk=vl_id)
     except Vorlesung.DoesNotExist:
         raise Http404
 
-    return t.render('vorlesung.djhtml', {'vl': vl})
+    return render_to_response('eval/vorlesung.djhtml', {'vl': vl})
 
 
+# 
 @login_required
 def editbogen(request, vl_id, bogen_id=None):
     try:
@@ -157,12 +177,12 @@ def editbogen(request, vl_id, bogen_id=None):
         if not bogen_id:
             ab = Antwortbogen()
 
-    return t.render('editbogen.djhtml', {
+    return render_to_response('eval/editbogen.djhtml', {
         'fragensets': fragensets,
         'vl': vl,
         'ab': ab,
         'studiengaenge': Studiengang.objects.all(),
-        }, req=request)
+        })
 
 
 @login_required
@@ -196,8 +216,10 @@ def comments(request, vl_id):
     textcomments = Antwort.objects.filter(antwortbogen__vorlesung=vl,
             frage__fragentyp__texttype=True)
 
-    return t.render('comments.djhtml', {'vl': vl, 'antworten'
-                    : textcomments}, req=request)
+    return render_to_response('eval/comments.djhtml', {
+            'vl': vl,
+            'antworten': textcomments
+            })
 
 
 @login_required
@@ -221,7 +243,8 @@ def export_einverst(request, vlu_id):
         'vorlesungen': vlu.vorlesungen.select_related(),
         }
 
-    # return as a zip file. from here: https://code.djangoproject.com/wiki/CookBookDynamicZip
+    # return as a zip file. from here:
+    # https://code.djangoproject.com/wiki/CookBookDynamicZip
 
     response = HttpResponse(mimetype='application/zip')
     response['Content-Disposition'] = 'filename=' + vlu.name + '.zip'

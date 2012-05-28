@@ -12,8 +12,8 @@ class="aktiv"
 <div class="blockwrapper">
 <div class="titlerow">Es kann LaTeX benutzt werden!</div>
 <form class="bogen" method="post" action="/rhp/{{ rhp.id }}/artikel{% if artikel.pk %}/{{ artikel.id }}{% endif %}">
-  {% csrf_token %}
-  <div class="frage">
+{{ csrf() }}
+<div class="frage">
     <div class="inner">
       Titel:
       <div class="options long">

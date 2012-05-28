@@ -2,10 +2,6 @@
 # -*- coding: utf-8 -*-
 from django.http import HttpResponse
 from jinja2 import Environment
-from django.shortcuts import render_to_response as rtr
-import os
-import inspect
-from fstools.settings import root
 
 class LatexHelper:
 
@@ -56,3 +52,5 @@ class LatexHelper:
 
     def datetimeformat(self, value, format='%d.%m.%Y'):
         return value.strftime(format)
+
+

@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>{% block title %}VLUServer{% endblock %}</title>
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/achtung.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/reset.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/screen.css" />
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/achtung.js"></script>
+    <script type="text/javascript" src="/static/js/ppp.js"></script>
+  </head>
+  <body>
+      <div id="header">
+      
+    <div class="coat">  
+      <h1>Patricia Pahamy Preis: {{ umfrage.name }}</h1>
+      </div>
+      </div>
+      
+    <div class="coat">
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    
+      <div id="content">
+      <div class="description">
+      Dieses Jahr verleihen die Studierenden des Fachbereiches Physik bereits zum zweiten Mal den Patricia-Pahami-Preis der Lehre. Sowohl Professorinnen als auch der 'Nachwuchs' im Bereich der Lehre sollen geehrt werden. Hierbei soll ausschließlich die Lehre und das Bemühen der Professorinnen um die Studierenden bewerten werden.<br />
+Leider haben wir noch keinen besseren Begriff als 'Nachwuchs' finden können. Alle Lehrenden, die nicht den Titel Professor tragen, werden als 'Nachwuchs' bezeichnet. Wir hoffen aber immer noch, dies in den nächsten Jahren ändern zu können. <br />
+Die erste Stimme gebt Ihr der Professorin Eurer Wahl, die zweite fällt auf einen Nachwuchslehrenden. Besonders wichtig ist hierbei eine Begründung, um Eure Entscheidung zu gewichten.<br />
+Ausgewertet wird eine Stimme nur dann, wenn das Name-Feld ausgefüllt wird. Ihr dürft nur einmal abstimmen, dazu überprüfen wir das angegebene Geburtsdatum und die Matrikelnummer. Diese Daten werden direkt nach dem Abstimmen bzw. der Umfrage gelöscht und sind nicht verknüpft mit Namen oder anderen persönlichen Informationen. 
+<br />
+<br />
+Die Empfehlungen können bis zum <strong>{{ umfrage.ppp_end|date }}</strong> abgegeben werden.
+<br />
+<br />
+Sollte mit dem Formular etwas nicht stimmen, oder eure Matrikelnummer nicht gefunden werden können, meldet euch bitte kurz unter <a href="mailto:fachschaft@physik.uni-marburg.de">fachschaft@physik.uni-marburg.de</a>.
+
+</div>
+        <div>
+          <div class="blockwrapper">
+<div class="titlerow">Abstimmungsformular</div>
+<form class="bogen" method="post" action="/ppp">
+{{ csrf() }}
+
+   
+<div class="frage" style="width:30%">
+    <div class="inner">
+      Matrikelnummer:
+      <div class="options long"  style="width:50%">
+        <input type="text" class="textinput" name="mnr" value="{{ '%s' % dat['mnr'] if dat }}" />
+      </div>
+    </div>
+  </div>
+  
+  <div class="frage" style="width:70%">
+    <div class="inner">
+      Geburtsdatum. Format: <strong>dd.mm.JJJJ</strong>:
+      <div class="options long"  style="width:60%">
+        <input type="text" class="textinput" name="gebdat" value="{{ '%s' % dat['gebdat'] if dat }}"/>
+      </div>
+    </div>
+  </div>
+
+<h2 style="padding-top:50px">Professor</h2>
+
+  <div class="frage" style="width:50%">
+    <div class="inner">
+      Name:
+      <div class="options long">
+        <input type="text" class="textinput" name="prof_name" value="{{ '%s' % dat['prof_name'] if dat }}"/>
+      </div>
+    </div>
+  </div>
+  
+  <div class="frage textfrage">
+    <div class="inner">
+      Begründung:<br />
+      <textarea name="prof_text" class="long" style="height:100px">{{ '%s' % dat['prof_text'] if dat }}</textarea>
+    </div>
+  </div>
+  
+<h2 style="padding-top:50px">Nachwuchs</h2>
+
+  <div class="frage" style="width:50%">
+    <div class="inner">
+      Name:
+      <div class="options long">
+        <input type="text" class="textinput" name="nach_name" value="{{ '%s' % dat['nach_name'] if dat }}"/>
+      </div>
+    </div>
+  </div>
+  
+  <div class="frage textfrage">
+    <div class="inner">
+      Begründung:<br />
+      <textarea name="nach_text" class="long" style="height:100px">{{ '%s' % dat['nach_text'] if dat }}</textarea>
+    </div>
+  </div>  
+  
+  <input type="submit" class="rightbutton" style="margin-top:50px" value="Abstimmung abschicken" />
+  <br class="clear" />
+
+</form>
+        </div>
+      </div>
+      </div>
+      </div>
+      <div id="footer">
+      
+    <div class="coat">
+        &copy; Fachschaft Physik, Marburg, 2011. Version 1.0. 
+      </div>
+    </div>
+  </body>
+</html>

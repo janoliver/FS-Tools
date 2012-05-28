@@ -81,7 +81,7 @@ class="aktiv"
         </tr>
         <tr class="save">
           <td colspan="{{ optionen|count|int + 1 }}">
-            {% csrf_token %}
+            {{ csrf() }}
             <input type="submit" value="Speichern" class="savebutton" />
           </td>
         </tr>

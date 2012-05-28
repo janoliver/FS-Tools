@@ -3,22 +3,19 @@
 from django.http import Http404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
-from extensions.templates import TemplateHelper, LatexHelper
-from jinja2 import Environment, PackageLoader
+from jinja2 import PackageLoader
 from rhp.models import Rhp, Artikel
 from eval.models import Vlu, Frage, Fragenset, Option
 from django.contrib.auth.decorators import login_required
 import zipfile
 import tempfile
 from cStringIO import StringIO
-
-t = TemplateHelper('rhp')
-
+from django.shortcuts import render_to_response
+from extensions.templates import LatexHelper
 
 @login_required
 def list(request):
-    return t.render('list.djhtml', {'rhps': Rhp.objects.all()},
-                    req=request)
+    return render_to_response('rhp/list.djhtml', {'rhps': Rhp.objects.all()})
 
 
 @login_required
@@ -30,7 +27,6 @@ def artikel(request, rhp_id, artikel_id=None):
 
     # check if a sheet is to be edited
 
-    print artikel_id
     if artikel_id:
         try:
             artikel = Artikel.objects.get(pk=artikel_id)
@@ -48,8 +44,7 @@ def artikel(request, rhp_id, artikel_id=None):
         artikel.save()
         messages.success(request, 'Erfolgreich gespeichert')
 
-    return t.render('artikel.djhtml', {'artikel': artikel, 'rhp': rhp},
-                    req=request)
+    return render_to_response('rhp/artikel.djhtml', {'artikel': artikel, 'rhp': rhp})
 
 
 @login_required

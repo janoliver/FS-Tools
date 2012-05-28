@@ -1,0 +1,40 @@
+{% extends "base.djhtml" %}
+
+
+{% block ppp %}
+class="aktiv"
+{% endblock ppp %}
+
+
+{% block content %}
+
+<div>
+  <h2>PPP Umfrage: {{ umfrage.name }}. Liste der Nominierungen</h2>
+  <table class="t">
+    <thead>
+      <tr>
+        <th>Typ</th>
+        <th>Name</th>
+        <th>Text</th>
+      </tr>
+    </thead>
+    <tbody>
+    
+        {% for n in umfrage.nominierungen.all() %}
+      <tr>
+        <td class="titletd">
+        {%- if n.typ -%}Dozent{% else %}Nachwuchs{% endif %}
+        </td>
+        <td class="titletd">{{ n.person }}</td>
+        <td class="titletd">{{ n.text }}</td>
+        
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <br style="clear:both"/>
+
+</div>
+
+{% endblock content %}

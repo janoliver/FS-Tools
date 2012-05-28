@@ -11,8 +11,8 @@ class="aktiv"
 <div class="blockwrapper">
 <div class="titlerow">Navigieren mit tab und shift-tab</div>
 <form class="bogen" method="post" action="/eval/editbogen/{{ vl.id }}{% if ab.pk %}/{{ ab.id }}{% endif %}">
-  {% csrf_token %}
-  <div class="frage thirds">
+{{ csrf() }}
+<div class="frage thirds">
     <div class="inner">
       Tutor:
       <div class="options">

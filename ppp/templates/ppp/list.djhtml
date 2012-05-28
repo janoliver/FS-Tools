@@ -1,0 +1,39 @@
+{% extends "base.djhtml" %}
+
+
+{% block ppp %}
+class="aktiv"
+{% endblock ppp %}
+
+
+{% block content %}
+
+<div>
+  <h2>PPP Umfragen</h2>
+  <div class="blockwrapper">
+  <table class="t">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Abstimmzeitraum</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in umfragen %}
+      <tr>
+        <td>{{ u.name }}</td>
+        <td>{{ u.ppp_start|date }} - {{ u.ppp_end|date }}</td>
+        <td class="buttons">
+          <a href="/ppp" class="button">Abstimmungsformular</a>  
+          <a href="/ppp/{{ u.id }}" class="button">Nominierungen</a>
+          <a href="/ppp/matr/{{ u.id }}" class="button">Matrikelnummern eingeben</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+
+{% endblock content %}

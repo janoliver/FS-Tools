@@ -10,7 +10,7 @@ class="aktiv"
 <div class="blockwrapper">
 <div class="titlerow">Hier können die Kommentare der Vorlesung korrektur gelesen und bearbeitet werden.</div>
 <form class="bogen" method="post" action="/eval/kommentare/{{ vl.id }}">
-  {% csrf_token %}
+  {{ csrf() }}
 
   {% for a in antworten %}
   <div class="frage textfrage">

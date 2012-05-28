@@ -16,6 +16,7 @@
     <div class="coat">
       <ul>
         <li><a href="/" {% block start %}{% endblock %}>Start</a></li>
+        <li><a href="/ppplist" {% block ppp %}{% endblock %}>PPP</a></li>
         <li><a href="/rhp" {% block rhp %}{% endblock %}>Renthofpostille</a></li>
         <li><a href="/eval" {% block vlu %}{% endblock %}>Vorlesungsumfrage</a></li>
         <li><a href="/umfrage" {% block umfrage %}{% endblock %}>Umfragen</a></li>

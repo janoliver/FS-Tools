@@ -1,0 +1,38 @@
+{% extends "base.djhtml" %}
+
+
+{% block ppp %}
+class="aktiv"
+{% endblock ppp %}
+
+
+{% block content %}
+
+<div>
+  <h2>PPP Umfrage: {{ umfrage.name }}. Matrikelnummern eingeben.</h2>
+<div class="blockwrapper">
+<div class="titlerow">Matrikelnummern und Geburtsdatum</div>
+<form class="bogen" method="post" action="/ppp/matr/{{ umfrage.id }}">
+{{ csrf() }}
+
+  <div class="frage textfrage">
+    <div class="inner">
+      Matrikelnummern und Geburtstage. Jede Zeile ist eine Nummer, Geburtsdatum
+      und Nummer sind durch ein Komma getrennt. Beispiel: <br />
+      &nbsp;&nbsp;&nbsp;&nbsp;123456789, 10.02.1987<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;123456789, 10.02.1987<br />
+      &nbsp;&nbsp;&nbsp;&nbsp;123456789, 10.02.1987<br />
+      ...<br />
+      Das Datum sollte in dieser Form sein: <strong>dd.mm.YYYY</strong>.
+      Leerzeichen werden ignoriert.<br />
+      <textarea name="text" class="long"></textarea>
+    </div>
+  </div>  
+
+  <input type="submit" class="rightbutton" value="Nummern speichern" />
+  <br class="clear" />
+
+</form>
+</div>
+
+{% endblock content %}
