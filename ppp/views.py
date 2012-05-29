@@ -1,7 +1,7 @@
 #!/usr/bin/python2
 # -*- coding: utf-8 -*-
 
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.contrib import messages
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
@@ -10,15 +10,14 @@ from datetime import datetime
 from django.template import RequestContext
 from django.db import transaction
 
-"""
-Die Liste der Umfragen.
-"""
+# Die Liste der Umfragen.
 @login_required
 def list(request):
     return render_to_response('ppp/list.djhtml',
-                              {'umfragen': PPPUmfrage.objects.all()})
+                              {'umfragen': PPPUmfrage.objects.all()},
+                              context_instance=RequestContext(request))
 
-
+# Details einer Umfrage, sprich, die Liste der Nominierungen
 @login_required
 def details(request, ppp_id):
     try:
@@ -29,6 +28,19 @@ def details(request, ppp_id):
     return render_to_response('ppp/details.djhtml',
                               {'umfrage':u})
 
+@login_required
+def matrikelnr_del(request, ppp_id):
+    try:
+        u = PPPUmfrage.objects.get(pk=ppp_id)
+    except PPPUmfrage.DoesNotExist:
+        raise Http404
+
+    Student.objects.filter(umfrage=u).delete()
+    messages.success(request, "Nummern gelöscht.")
+    return HttpResponseRedirect('/ppplist')
+
+    
+# Matrikelnummer Eingabe.
 @login_required
 def matrikelnr(request, ppp_id):
     try:
@@ -43,7 +55,7 @@ def matrikelnr(request, ppp_id):
         err = False
 
         # we clear the table first
-        Student.objects.all().delete()
+        Student.objects.filter(umfrage=u).delete()
 
         # and now insert the individual rows
         with transaction.commit_manually():
@@ -70,7 +82,7 @@ def matrikelnr(request, ppp_id):
                               {'umfrage':u},
                               context_instance=RequestContext(request))
 
-
+# Die Abstimmungsview. Diese ist sichtbar für alle!
 def abstimmen(request):
     # finde laufende Umfragen. Sollten es mehrere sein,
     # nimm die erste.
@@ -98,6 +110,7 @@ def abstimmen(request):
                                      werden!')
             data = reqdata
         else:
+            # Trage Nominierung nur ein, wenn ein Name angegeben wurde. 
             if reqdata['prof_name'].strip() != '':
                 n = Nominierung()
                 n.umfrage = u
@@ -115,7 +128,6 @@ def abstimmen(request):
             messages.success(request, 'Deine Nominierung wurde \
                                        gespeichert. Vielen Dank!')
             row.delete()
-
 
     return render_to_response('ppp/abstimmen.djhtml',
                               {'umfrage':u, 'dat' : data},

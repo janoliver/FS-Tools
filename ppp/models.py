@@ -7,9 +7,9 @@ import extensions.models as cmodels
 from eval.models import Personal
 from datetime import datetime
 
-
+# Das Umfrage Model. Ist lediglich durch einen Umfragezeitraum sowie einen
+# Namen definiert.
 class PPPUmfrage(cmodels.Timestamped_Model):
-
     name = models.CharField(max_length=255)
     ppp_start = models.DateTimeField(default=datetime.now)
     ppp_end = models.DateTimeField(default=datetime.now)
@@ -22,7 +22,7 @@ class PPPUmfrage(cmodels.Timestamped_Model):
     def __unicode__(self):
         return self.name
 
-
+# Die Studentenliste, bestehend aus Matrikelnummer 
 class Student(cmodels.Timestamped_Model):
     
     umfrage = models.ForeignKey(PPPUmfrage, related_name='matrikelnummern',
@@ -30,15 +30,8 @@ class Student(cmodels.Timestamped_Model):
     matrikelnummer = models.CharField(max_length=255)
     geburtstag = models.DateTimeField()
 
-    class Meta:
 
-        verbose_name_plural = 'Matrikelnummern'
-
-
-    def __unicode__(self):
-        return self.titel
-
-
+# Eine Nominierung. typ ist TRUE für Professor und FALSE für Nachwuchs
 class Nominierung(cmodels.Timestamped_Model):
 
     umfrage = models.ForeignKey(PPPUmfrage, related_name='nominierungen',

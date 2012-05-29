@@ -28,6 +28,7 @@ class="aktiv"
           <a href="/ppp" class="button">Abstimmungsformular</a>  
           <a href="/ppp/{{ u.id }}" class="button">Nominierungen</a>
           <a href="/ppp/matr/{{ u.id }}" class="button">Matrikelnummern eingeben</a>
+          <a href="/ppp/delmatr/{{ u.id }}" class="button">Matrikelnummern löschen</a>
         </td>
       </tr>
       {% endfor %}
