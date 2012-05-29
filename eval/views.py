@@ -4,7 +4,7 @@
 from django.http import Http404, HttpResponse
 from eval.models import *
 from django.shortcuts import redirect
-from extensions.templates import LatexHelper
+from fstools.extensions.templates import LatexHelper
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -18,7 +18,8 @@ from cStringIO import StringIO
 def home(request):
     return render_to_response('eval/home.djhtml', {
             'vlus': Vlu.objects.all(),
-            'boegen': Fragebogen.objects.all()})
+            'boegen': Fragebogen.objects.all()},
+                              context_instance=RequestContext(request))
 
 
 # Die Einverständniserklärungen-Seite
@@ -29,7 +30,8 @@ def einverst(request, vl_id):
     except Vorlesung.DoesNotExist:
         raise Http404
 
-    return render_to_response('eval/einverst.djhtml', {'vl': vl})
+    return render_to_response('eval/einverst.djhtml', {'vl': vl},
+                              context_instance=RequestContext(request))
 
 
 # Diese View setzt die Einverständniserklärung für eine VLU
@@ -94,10 +96,11 @@ def vl(request, vl_id):
     except Vorlesung.DoesNotExist:
         raise Http404
 
-    return render_to_response('eval/vorlesung.djhtml', {'vl': vl})
+    return render_to_response('eval/vorlesung.djhtml', {'vl': vl},
+                              context_instance=RequestContext(request))
 
 
-# 
+# Das Eingeben oder editieren eines Umfragebogens
 @login_required
 def editbogen(request, vl_id, bogen_id=None):
     try:
@@ -182,7 +185,8 @@ def editbogen(request, vl_id, bogen_id=None):
         'vl': vl,
         'ab': ab,
         'studiengaenge': Studiengang.objects.all(),
-        })
+        },
+        context_instance=RequestContext(request))
 
 
 @login_required
@@ -219,7 +223,8 @@ def comments(request, vl_id):
     return render_to_response('eval/comments.djhtml', {
             'vl': vl,
             'antworten': textcomments
-            })
+            },
+                              context_instance=RequestContext(request))
 
 
 @login_required

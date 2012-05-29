@@ -1,6 +1,7 @@
 #!/usr/bin/python2
 # -*- coding: utf-8 -*-
 from django.http import Http404
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from jinja2 import PackageLoader
@@ -11,11 +12,12 @@ import zipfile
 import tempfile
 from cStringIO import StringIO
 from django.shortcuts import render_to_response
-from extensions.templates import LatexHelper
+from fstools.extensions.templates import LatexHelper
 
 @login_required
 def list(request):
-    return render_to_response('rhp/list.djhtml', {'rhps': Rhp.objects.all()})
+    return render_to_response('rhp/list.djhtml', {'rhps': Rhp.objects.all()},
+                              context_instance=RequestContext(request))
 
 
 @login_required
@@ -44,7 +46,8 @@ def artikel(request, rhp_id, artikel_id=None):
         artikel.save()
         messages.success(request, 'Erfolgreich gespeichert')
 
-    return render_to_response('rhp/artikel.djhtml', {'artikel': artikel, 'rhp': rhp})
+    return render_to_response('rhp/artikel.djhtml', {'artikel': artikel, 'rhp': rhp},
+                              context_instance=RequestContext(request))
 
 
 @login_required

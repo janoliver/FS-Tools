@@ -15,7 +15,8 @@ Die Liste der Umfragen.
 @login_required
 def list(request):
     return render_to_response('umfrage/list.djhtml',
-                              {'umfragen': Umfrage.objects.all()})
+                              {'umfragen': Umfrage.objects.all()},
+                              context_instance=RequestContext(request))
 
 """
 Hier wird eine Umfrage angezeigt bzw. ein neues Voting eingetragen.
@@ -99,4 +100,5 @@ def umfrage(request, umfrage_id):
             'votes': u.votes.all(),
             'currentuser': request.user,
             'choices': choices,
-            })
+            },
+                                  context_instance=RequestContext(request))
