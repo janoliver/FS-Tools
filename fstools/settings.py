@@ -64,7 +64,7 @@ ROOT_URLCONF = 'fstools.urls'
 
 LOGIN_REDIRECT_URL = '/'
 
-AUTHENTICATION_BACKENDS = ('extensions.dpam.backends.PAMBackend', )
+AUTHENTICATION_BACKENDS = ('fstools.extensions.dpam.backends.PAMBackend', )
 
 INSTALLED_APPS = (  # 'django_extensions',
     'django.contrib.auth',

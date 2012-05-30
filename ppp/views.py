@@ -92,7 +92,7 @@ def abstimmen(request):
             ).filter(
             ppp_end__gte=datetime.now()
             )[0]
-    except PPPUmfrage.DoesNotExist:
+    except (PPPUmfrage.DoesNotExist, IndexError):
         raise Http404
 
     data = None

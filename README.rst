@@ -6,16 +6,17 @@ Diese Django Anwendung beinhaltet einige Tools, die verschiedene
 Aufgaben der Fachschaft Physik in Marburg vereinfachen. Dazu gehören
 derzeit die Vorlesungsevaluation und ein Programm zum Erstellen der 
 Auswertung dieser und des LaTeX Codes für die Zeitschrift *Renthofpostille*.
+Außerdem die Umfrage für den Patricia Pahamy Preis und ein Umfragemodul. 
 Diverse weitere Apps kommen mit der Zeit dazu. (hoffentlich!)
 
 Abhängigkeiten
 ==============
 
-* Django PAM fÃ¼r die Integration der Linux Benutzerdatenbank:
-  https://bitbucket.org/maze/django-pam
 * django 1.4
+* Jinja2
 * Python > 2.5
 * Sqlite3
+* Jingo jinja2 interface
 * South http://south.aeracode.org/ für Datenbank Migrationen
 
 Installation:

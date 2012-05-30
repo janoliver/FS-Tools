@@ -8,19 +8,17 @@ from django.utils import simplejson
 from django.shortcuts import render_to_response
 from umfrage.models import Umfrage, Option, Vote
 from django.contrib.auth.decorators import login_required
+from django.template import RequestContext
 
-"""
-Die Liste der Umfragen.
-"""
+# Die Liste der Umfragen.
 @login_required
 def list(request):
     return render_to_response('umfrage/list.djhtml',
                               {'umfragen': Umfrage.objects.all()},
                               context_instance=RequestContext(request))
 
-"""
-Hier wird eine Umfrage angezeigt bzw. ein neues Voting eingetragen.
-"""
+
+# Hier wird eine Umfrage angezeigt bzw. ein neues Voting eingetragen.
 @login_required
 def umfrage(request, umfrage_id):
     try:

@@ -12,6 +12,7 @@ from django.db import transaction
 import zipfile
 import tempfile
 from cStringIO import StringIO
+from django.template import RequestContext
 
 # Die Startseite der Eval App (Vorlesungsumfrage)
 @login_required

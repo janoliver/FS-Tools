@@ -3,7 +3,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
-import extensions.models as cmodels
+import fstools.extensions.models as cmodels
 
 
 class Umfrage(cmodels.Timestamped_Model):

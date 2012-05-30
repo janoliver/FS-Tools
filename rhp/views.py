@@ -13,6 +13,7 @@ import tempfile
 from cStringIO import StringIO
 from django.shortcuts import render_to_response
 from fstools.extensions.templates import LatexHelper
+from django.template import RequestContext
 
 @login_required
 def list(request):
