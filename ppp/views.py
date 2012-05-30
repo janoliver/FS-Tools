@@ -105,7 +105,7 @@ def abstimmen(request):
                 ).filter(
                 geburtstag=datetime.strptime(reqdata['gebdat'], '%d.%m.%Y')
                 )[0]
-        except (Student.DoesNotExist, ValueError):
+        except:
             messages.error(request, 'Diese Matrikelnummer konnte nicht gefunden \
                                      werden!')
             data = reqdata
