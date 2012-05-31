@@ -6,10 +6,12 @@ from django.contrib import admin
 # Vorlesungen bearbeiten
 class VorlesungDozentenInline(admin.StackedInline):
     model = VorlesungDozenten
+    exclude = ('einverstanden',)
     extra = 1
     
 class VorlesungTutorenInline(admin.TabularInline):
     model = VorlesungTutoren
+    exclude = ('einverstanden',)
     extra = 3
 
 class VorlesungAdmin(admin.ModelAdmin):

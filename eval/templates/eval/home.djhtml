@@ -34,7 +34,7 @@ class="aktiv"
                 <th>Vorlesung</th>
                 <th>Fragebogen</th>
                 <th>Bögen</th>
-                <th></th>
+                <th class="buttons"><a href="/admin/eval/vorlesung/add/" class="button">Neue Vorlesung</a></th>
               </tr>
             </thead>
             <tbody>
@@ -49,6 +49,7 @@ class="aktiv"
                   <a href="/eval/kommentare/{{ vl.id }}/" class="button">Kommentare</a>
                   <a href="/eval/vorlesung/{{ vl.id }}/" class="button">Antworten</a>
                 </td>
+                
               </tr>
               {% endfor %}
             </tbody>
