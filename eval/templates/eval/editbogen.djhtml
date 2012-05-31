@@ -14,7 +14,7 @@ class="aktiv"
 {{ csrf() }}
 <div class="frage thirds">
     <div class="inner">
-      Tutor:
+      Tutor: (<a href="/admin/eval/vorlesung/{{ vl.id }}/">+</a>)
       <div class="options">
         <select name="tutor">
           <option></option>
