@@ -3,7 +3,19 @@
 from eval.models import *
 from django.contrib import admin
 
+# Vorlesungen bearbeiten
+class VorlesungDozentenInline(admin.StackedInline):
+    model = VorlesungDozenten
+    extra = 1
+    
+class VorlesungTutorenInline(admin.TabularInline):
+    model = VorlesungTutoren
+    extra = 3
 
+class VorlesungAdmin(admin.ModelAdmin):
+    inlines = (VorlesungDozentenInline,VorlesungTutorenInline)
+
+    
 class OptionInline(admin.TabularInline):
 
     model = Option
@@ -55,5 +67,5 @@ admin.site.register(Fragentyp, FragentypAdmin)
 admin.site.register(Vlu, VluAdmin)
 admin.site.register(Fragenset, FragensetAdmin)
 admin.site.register(Frage, admin.ModelAdmin)
-admin.site.register(Vorlesung, admin.ModelAdmin)
+admin.site.register(Vorlesung, VorlesungAdmin)
 admin.site.register(Fragebogen, FragebogenAdmin)
