@@ -1,18 +1,4 @@
-%  Liste der Dateien:
-%  
-%  # rhp.sty: Stile, befehle, eingebundene Pakete usw. der RHP. Sozusagen die gesamte Präambel
-%  # vorwort.eps: Das Bildchen, was diese Statistikkästen erläutert.
-%  # titel.tex: Titelseite
-%  
-%  TODOs:
-%  
-%  # rhp.tex sollte so einfach wie möglich gehalten werden. Daher: möglichst viele Makros
-%    schreiben, um die Struktur der RHP zu vereinfachen. Bsp: DIe ganzen newpages usw. 
-%  # vorwort.eps sollte eine tikz oder pstricks grafik werden. 
-%  # ALLES UTF-8 bitte!
-%  # \Stats überarbeiten vielleicht...
-
-
+%  Template der Einverständniserklärungen
 
 \documentclass[oneside,12pt, headinclude=true, footinclude=false]{scrreprt}
 
@@ -24,13 +10,113 @@
 %\pagestyle{empty}
 
 \BLOCK{for vl in vorlesungen}
-
 \BLOCK{if vl.antwortboegen.all()|count > 0}
+\BLOCK{for dozent in vl.get_personal()}
 
 \setcounter{page}{1}
+
 \Kopfklein{\VAR{vl.name}}{\VAR{ vl.dozenten.all()|concat}}
 
-\genehm{\VAR{ vl.dozenten.all()|concat}}
+Liebe(r) \VAR{dozent[1].name},
+
+\BLOCK{if dozent[1].einverst}
+
+die Vorlesungsumfrage ist nun ausgewertet. Sie haben bei der Fachschaft eine
+dauerhafte Einverständniserklärung abgegeben. Sie können gegen die
+Veröffentlichung der Umfrageergebnisse inkl. Kommentare Einspruch einlegen,
+müssen dies aber binnen \textbf{einer Woche} nach Erhalt dieses Dokumentes
+tun. Wir bitten Sie, die Sie betreffenden Stellen zu prüfen.
+
+Sollten Sie einzelne Kommentare als unangebracht, beleidigend oder dem Zweck
+der Vorlesungsumfrage nicht dienlich erachten, markieren Sie diese bitte. Wir
+werden dann prüfen, ob die Kommentare gegebenenfalls gestrichen werden.
+
+Wenn Sie die Dauerhafte Einverständniserklärung widerrufen wollen, können Sie
+der Fachschaft den vorgesehenen Abschnitt zukommen lassen.
+
+\textbf{Bitte nehmen Sie sich die Zeit, die Ergebnisse genau durchzulesen und
+  mit den Studierenden zu besprechen. Nur so kann die Lehre an unserem
+  Fachbereich stetig verbessert werden.}
+
+\vfill
+
+\dingline{34}
+
+Hiermit \textbf{widerspreche} ich dem Druck der mich betreffenden Ergebnisse
+der Vorlesungsumfrage {\bf \VAR{vlu.name}} in der Renthofpostille.
+
+\begin{tabular}{p{3cm}p{8cm}}
+\vspace{0.5cm}   Datum:        &\\
+\vspace{0.1cm} Name:         &\vspace{0.1cm}{\bf \VAR{dozent[1].name}}\\
+\vspace{0.1cm} Unterschrift: &\\
+\end{tabular}
+
+\vspace{1cm}
+
+\dingline{34}
+
+Hiermit \textbf{widerrufe} ich die dauerhafte Einverständniserklärung zur
+Veröffentlichung der Umfrageergebnisse.
+
+\begin{tabular}{p{3cm}p{8cm}}
+\vspace{0.5cm}   Datum:        &\\
+\vspace{0.1cm} Name:         &\vspace{0.1cm}{\bf \VAR{dozent[1].name}}\\
+\vspace{0.1cm} Unterschrift: &\\
+\end{tabular}
+
+\BLOCK{else}
+
+die Vorlesungsumfrage ist nun ausgewertet. Wir bitten Sie, die Sie betreffenden
+Stellen zu prüfen und uns die Genehmigung zur Veröffentlichung in der
+Renthofpostille zu erteilen.
+
+Sollten Sie einzelne Kommentare als unangebracht, beleidigend oder dem Zweck
+der Vorlesungsumfrage nicht dienlich erachten, markieren Sie diese bitte. Wir
+werden dann prüfen, ob die Kommentare gegebenenfalls gestrichen werden.
+
+Wir bitten Sie, den unterschriebenen Zettel möglichst bald in den
+\textbf{Fachschaftsbriefkasten} im RH5 zu werfen.
+
+\textbf{Bitte nehmen Sie sich die Zeit, die Ergebnisse genau durchzulesen und
+  mit den Studierenden zu besprechen. Nur so kann die Lehre an unserem
+  Fachbereich stetig verbessert werden.}
+
+Wenn Sie eine dauerhafte Einverständniserklärung abgeben möchten, können Sie
+den dafür vorgesehenen Zettel ausfüllen und der Fachschaft zukommen lassen. Das
+erleichtert uns und Ihnen die Arbeit in späteren Vorlesungsumfragen. Es wird
+anschließend nach wie vor jeder Lehrende die ihn betreffenden Ergebnisse
+erhalten und hat die Möglichkeit, Einspruch gegen deren Veröffentlichung
+einzulegen. Es wird aber bis dahin von einem Einverständnis ausgegangen!
+
+\vfill
+
+\dingline{34}
+
+Hiermit genehmige ich den Druck der mich betreffenden Ergebnisse der
+Vorlesungsumfrage {\bf \VAR{vlu.name}} in der Renthofpostille.
+
+\begin{tabular}{p{3cm}p{8cm}}
+\vspace{0.5cm}   Datum:        &\\
+\vspace{0.1cm} Name:         &\vspace{0.1cm}{\bf \VAR{dozent[1].name}}\\
+\vspace{0.1cm} Unterschrift: &\\
+\end{tabular}
+
+\vspace{1cm}
+
+\dingline{34}
+
+Hiermit zeige ich mich dauerhaft mit der Veröffentlichung der mich betreffenden
+Ergebnisse der Vorlesungsumfrage einverstanden. Die Ergebnisse werden ohne
+zusätzliche Einverständniserklärung veröffentlicht, wenn ich nicht eigenständig
+Einspruch erhebe. 
+
+\begin{tabular}{p{3cm}p{8cm}}
+\vspace{0.5cm}   Datum:        &\\
+\vspace{0.1cm} Name:         &\vspace{0.1cm}{\bf \VAR{dozent[1].name}}\\
+\vspace{0.1cm} Unterschrift: &\\
+\end{tabular}
+
+\BLOCK{endif}
 \newpage
 
 \centerline{\bf Abgegebene Fragebögen: \VAR{vl.antwortboegen.all()|count}}
@@ -159,11 +245,9 @@
 \BLOCK{- endfor}
 
 
-
+\BLOCK{endfor}
 \BLOCK{endif} % anzahl vorlesungen
-
 \newpage
-
 \BLOCK{endfor}
 
 \end{document}

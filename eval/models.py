@@ -58,12 +58,18 @@ class Vorlesung(cmodels.Timestamped_Model):
                     ).filter(antwortbogen__vorlesung=self)
         return self.antworten_cache
 
-    def get_personal(self):
+    def get_personal(self, typ=0):
         p = []
-        for dozent in self.dozenten.all():
-            p.append(('Dozent', dozent, dozent.vorlesungdozenten_set.get(vorlesung=self.id).einverstanden))
-        for tutor in self.tutoren.all():
-            p.append(('Tutor', tutor,  tutor.vorlesungtutoren_set.get(vorlesung=self.id).einverstanden))
+        if typ == 0 or typ == 1:
+            for dozent in self.dozenten.all():
+                p.append(('Dozent', dozent,
+                          dozent.vorlesungdozenten_set
+                                .get(vorlesung=self.id).einverstanden))
+        if typ == 0 or typ == 2:
+            for tutor in self.tutoren.all():
+                p.append(('Tutor', tutor,
+                          tutor.vorlesungtutoren_set
+                               .get(vorlesung=self.id).einverstanden))
         
         return p
     

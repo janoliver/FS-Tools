@@ -9,6 +9,7 @@ from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db import transaction
+from jinja2 import Environment, PackageLoader
 import zipfile
 import tempfile
 from cStringIO import StringIO
