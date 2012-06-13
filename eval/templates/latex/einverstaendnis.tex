@@ -121,7 +121,7 @@ Einverständniserklärung ist jederzeit schriftlich widerrufbar.
 
 \BLOCK{endif}
 \newpage
-
+\BLOCK{if dozent[0] == 'Dozent'}
 \centerline{\bf Abgegebene Fragebögen: \VAR{vl.antwortboegen.all()|count}}
 
 \begin{center}
@@ -204,15 +204,13 @@ Einverständniserklärung ist jederzeit schriftlich widerrufbar.
   \BLOCK{- endfor -}
 \BLOCK{- endfor}
 
+\BLOCK{else} % tutor oder dozent
+
 \BLOCK{for fragenset in vl.fragebogen.fragensets.all() -}
   \BLOCK{- for frage in fragenset.fragenn(fragen) -}
     \BLOCK{- if frage.fragentyp.texttype and frage.id == 34}
       \BLOCK{if vl.tutoren.all()|count > 0}
-        \BLOCK{for tutor in vl.tutoren.all()}
-          \BLOCK{if frage.antworten(vl, tutor)|count > 0 -}
-            \newpage
-            \genehm{\VAR{tutor.name}}
-            \newpage
+          \BLOCK{if frage.antworten(vl, dozent[1])|count > 0 -}
             
             \centerline{\bf Abgegebene Fragebögen: \VAR{vl.antwortboegen.all()|count}}
             
@@ -233,19 +231,20 @@ Einverständniserklärung ist jederzeit schriftlich widerrufbar.
             \Strich
 
             {\bf \VAR{frage.text}}\\
-            Tutor: \VAR{tutor.name}
+            Tutor: \VAR{dozent[1].name}
       
             \begin{itemize}
-            \BLOCK{for k in frage.antworten(vl, tutor)}
+            \BLOCK{for k in frage.antworten(vl, dozent[1])}
               \item \VAR{k.text|latexify}
             \BLOCK{endfor}
             \end{itemize}
           \BLOCK{endif}
-        \BLOCK{- endfor -}
       \BLOCK{endif}
     \BLOCK{endif}
   \BLOCK{- endfor -}
 \BLOCK{- endfor}
+
+\BLOCK{endif}
 
 \newpage
 \BLOCK{endfor}
