@@ -31,6 +31,7 @@ class LatexHelper:
             '>': '$>$',
             '%': '\%',
             '"': "''",
+            '&': '\&'
             }
         for (k, v) in replacements.iteritems():
             string = string.replace(k, v)
