@@ -15,9 +15,9 @@
 
 \setcounter{page}{1}
 
-\Kopfklein{\VAR{vl.name}}{\VAR{ vl.dozenten.all()|concat}}
+\Kopfklein{\VAR{vl.name|latexify}}{\VAR{ vl.dozenten.all()|concat|latexify}}
 
-Liebe(r) \VAR{dozent[1].name},
+Liebe(r) \VAR{dozent[1].name|latexify},
 
 \BLOCK{if dozent[1].einverst}
 
@@ -47,7 +47,7 @@ der Vorlesungsumfrage {\bf \VAR{vlu.name}} in der Renthofpostille.
 
 \begin{tabular}{p{3cm}p{8cm}}
 \vspace{0.5cm}   Datum:        &\\
-\vspace{0.1cm} Name:         &\vspace{0.1cm}{\bf \VAR{dozent[1].name}}\\
+\vspace{0.1cm} Name:         &\vspace{0.1cm}{\bf \VAR{dozent[1].name|latexify}}\\
 \vspace{0.1cm} Unterschrift: &\\
 \end{tabular}
 
@@ -60,7 +60,7 @@ Veröffentlichung der Umfrageergebnisse.
 
 \begin{tabular}{p{3cm}p{8cm}}
 \vspace{0.5cm}   Datum:        &\\
-\vspace{0.1cm} Name:         &\vspace{0.1cm}{\bf \VAR{dozent[1].name}}\\
+\vspace{0.1cm} Name:         &\vspace{0.1cm}{\bf \VAR{dozent[1].name|latexify}}\\
 \vspace{0.1cm} Unterschrift: &\\
 \end{tabular}
 
@@ -98,7 +98,7 @@ Vorlesungsumfrage {\bf \VAR{vlu.name}} in der Renthofpostille.
 
 \begin{tabular}{p{3cm}p{8cm}}
 \vspace{0.5cm}   Datum:        &\\
-\vspace{0.1cm} Name:         &\vspace{0.1cm}{\bf \VAR{dozent[1].name}}\\
+\vspace{0.1cm} Name:         &\vspace{0.1cm}{\bf \VAR{dozent[1].name|latexify}}\\
 \vspace{0.1cm} Unterschrift: &\\
 \end{tabular}
 
@@ -115,7 +115,7 @@ Einverständniserklärung ist jederzeit schriftlich widerrufbar.
 
 \begin{tabular}{p{3cm}p{8cm}}
 \vspace{0.5cm}   Datum:        &\\
-\vspace{0.1cm} Name:         &\vspace{0.1cm}{\bf \VAR{dozent[1].name}}\\
+\vspace{0.1cm} Name:         &\vspace{0.1cm}{\bf \VAR{dozent[1].name|latexify}}\\
 \vspace{0.1cm} Unterschrift: &\\
 \end{tabular}
 
