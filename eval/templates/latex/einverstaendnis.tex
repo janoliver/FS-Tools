@@ -179,28 +179,28 @@ Einverständniserklärung ist jederzeit schriftlich widerrufbar.
       \BLOCK{endif -}
     \BLOCK{- endif -}
 
-    \BLOCK{- if frage.fragentyp.texttype and frage.id == 34}
-      {\bf \VAR{frage.text}}
-      \BLOCK{if vl.tutoren.all()|count > 0}
-        \begin{itemize}
-        \BLOCK{for tutor in vl.tutoren.all()}
-          \item Gruppe von \VAR{tutor.name}
-          \BLOCK{if frage.antworten(vl, tutor)|count > 0 -}
-            \begin{itemize}
-              \setlength{\itemsep}{0cm} \setlength{\parsep}{0cm}
-            \BLOCK{for k in frage.antworten(vl, tutor)}
-              \item \VAR{k.text|latexify}
-            \BLOCK{endfor}
-            \end{itemize}
-          \BLOCK{- else -}
-            \begin{itemize}\item Keine Kommentare\end{itemize}
-          \BLOCK{endif -}
-        \BLOCK{- endfor -}
-        \end{itemize}
-      \BLOCK{else}
-        \begin{itemize}\item Keine Kommentare\end{itemize}
-      \BLOCK{- endif}
-    \BLOCK{endif}
+    %\BLOCK{- if frage.fragentyp.texttype and frage.id == 34}
+    %  {\bf \VAR{frage.text}}
+    %  \BLOCK{if vl.tutoren.all()|count > 0}
+    %    \begin{itemize}
+    %    \BLOCK{for tutor in vl.tutoren.all()}
+    %      \item Gruppe von \VAR{tutor.name}
+    %      \BLOCK{if frage.antworten(vl, tutor)|count > 0 -}
+    %        \begin{itemize}
+    %          \setlength{\itemsep}{0cm} \setlength{\parsep}{0cm}
+    %        \BLOCK{for k in frage.antworten(vl, tutor)}
+    %          \item \VAR{k.text|latexify}
+    %        \BLOCK{endfor}
+    %        \end{itemize}
+    %      \BLOCK{- else -}
+    %        \begin{itemize}\item Keine Kommentare\end{itemize}
+    %      \BLOCK{endif -}
+    %    \BLOCK{- endfor -}
+    %    \end{itemize}
+    %  \BLOCK{else}
+    %    \begin{itemize}\item Keine Kommentare\end{itemize}
+    %  \BLOCK{- endif}
+    %\BLOCK{endif}
   \BLOCK{- endfor -}
 \BLOCK{- endfor}
 
