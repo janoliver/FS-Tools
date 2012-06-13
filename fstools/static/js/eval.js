@@ -21,6 +21,32 @@ $(document).ready(function() {
         $("." + $(this).attr('href')).toggleClass("tpl");
     });
 
+    // Aktionen
+    /*if($('.t tbody tr td.buttons').length > 0) {
+        td = $('.t tbody tr td.buttons');
+        links = td.find('a');
+        links.hide();
+        aktionen_link = $('<a href="#" class="button">Aktionen</a>');
+        link_list = $('<ul class="aktionenliste"></ul>').hide();
+        links.each(function() {
+            li = $('<li></li>').append($(this).show());
+            link_list.append(li);
+        });
+        td.append(link_list);
+        td.prepend(aktionen_link);
+
+        // show effect
+        aktionen_link.hover(function() {
+            $(this).hide();
+            link_list.show();
+        });
+
+        link_list.mouseleave(function() {
+            $(this).hide();
+            aktionen_link.show();
+        })
+    }*/
+    
     // antwortbogen page key functionality
     if($('.bogen').length > 0) {
         

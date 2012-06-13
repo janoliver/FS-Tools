@@ -221,6 +221,7 @@ table.t {
 .t thead tr th.buttons,
 .t tbody tr td.buttons {
     text-align:right;
+    position:relative;
 }
 
 .t tbody tr td.order a {
@@ -283,6 +284,16 @@ td.einverstanden a{
 .t tbody tr td ul.personal-list {
     margin-left:25px;
     list-style:disc;
+}
+
+/* ----- aktionen link liste --- */
+
+.aktionenliste {
+    position:absolute;
+    right:0;
+    text-align:center;
+    background:#eee;
+    border:1px solid #cacaca;
 }
 
 /*  ---- eintippen --- */
