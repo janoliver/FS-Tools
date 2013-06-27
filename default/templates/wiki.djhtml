@@ -8,7 +8,7 @@ class="aktiv"
 {% block content %}
 
 
-<iframe src="https://trillian.physik.uni-marburg.de/wiki/doku.php"></iframe>
+<iframe src="/wiki/doku.php"></iframe>
 
 
 {% endblock content %}
